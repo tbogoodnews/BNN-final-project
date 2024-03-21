@@ -24,13 +24,17 @@
 \usetikzlibrary{snakes}
 \usepackage{rotating}
 
-
-
 \usepackage[style=apa,backend=biber,citestyle=numeric]{biblatex}
 \addbibresource{../refs.bib}
 
-\title{Merkle Trees}
-\author{Taylor Blair}
+\title{Bayesian Neural Networks}
+\author{
+	Blair, Taylor\\
+	\and
+	Ava\\
+	\and
+	Conor\\
+}
 \date{\today}
 \let\footnote=\endnote
 
@@ -59,14 +63,19 @@
 
 
 \begin{abstract}
-	Merkle trees are secured data structures whose operations generate proofs that use $\mathcal{O}(\log(n))$ hashes. The runtime complexity combined with other properties related to trees makes it a useful component in several open-source projects.
+	Bayesian Neural Networks are...
 \end{abstract}
 
 \tableofcontents
 
 \section{Introduction}
 
-Merkle trees were invented by Ralph Merkle. Ralph Merkle initially patented Merkle trees for digital signatures. After the patent expired Merkle trees were implemented in a variety of open source projects. 
+\subsection{Neural Networks}
+
+
+\subsection{Bayesian Neural Networks}
+
+Bayesian Neural were invented by Ralph Merkle. Ralph Merkle initially patented Merkle trees for digital signatures....
 
 \begin{figure}[H]
 	\centering
@@ -75,9 +84,7 @@ Merkle trees were invented by Ralph Merkle. Ralph Merkle initially patented Merk
 \end{figure}
 
 
-Merkle trees are a data structure where the node values represent a hash of the nodes below. They have several desirable properties related to the runtime of operations on the Merkle trees.
-
-The security of Merkle trees is related to the ability to collide against the hash function. As such, a strong hash function is required for constructing the Merkle trees. 
+....
 
 
 \subsection{History}
@@ -115,13 +122,7 @@ The security of Merkle trees is related to the ability to collide against the ha
 	\end{tikzpicture}
 \end{figure}
 
-As stated above, Merkle trees were created in 1987 by Ralph Merkle for digital signatures\cite{merkle-patent}. In the initial patent, the nodes were used for signing and verification:
 
-\begin{quote}
-	To sign a message $M_i$ the signer selects a previously unused node (i.e., node $i$) from the infinite tree. The message signing key at this node is then used to sign this message. The sequence of nodes from the root of the tree (i.e., node 1) to node $i$ is then used to verify that the message signature is correct and has not been tampered with.\cite{merkle-patent}
-\end{quote}
-
-Once the Merkle tree patent expired Merkle trees were implemented in various open-source projects including Bitcoin and BitTorrent which is expanded upon in a section below.
 
 \section{Literature Review}
 
@@ -147,119 +148,8 @@ When referring to the parts of a Merkle tree the most common terminology is "roo
 
 
 
-\section{Operations}
+\section{How it works}
 
-There are several operations can for Merkle trees unrelated to tree manipulation that generate a proof resulting in a root hash. The root hash from the proof is then verified against a known hash to check for correctness. The most common operations are as follows.
-
-
-
-\subsection{Proving Equality of Merkle Trees}
-
-\begin{figure}[H]
-	\begin{center}
-		\begin{verbatim}
-    ROOT1              ROOT2
-   /     \             /     \
-  L1       R1         L2      R2
- /  \    /  \        /  \    /  \     
-L1.1  ....  R1.2    L2.1 ... R2.2
-		\end{verbatim}
-	\end{center}
-\end{figure}
-
-Proving the equality of two Merkle trees is an $O(1)$ operation. The operation compares the root nodes of the two trees. If the root nodes match, then the trees are equal. 
-
-
-\subsection{Proving Membership}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=.8\textwidth]{../Images/merkle-example.png}
-	\caption{Show "\textit{Germany}" exist in the tree\cite{buchannen_2022}}
-	% The reason we only need nodes 1, 34 and 567, is that we can regenerate Node 12 and Node 1234 from these values. Bitcoin, for example, uses this method in order to check the validity of a transaction within the block. We can then add our transactions into a Merkle Tree, and produce a root hash. Within the block we can then add the root hash of the previous block and the root hash of the next block, and thus interlock the blocks into a chain:	
-\end{figure}
-
-Using the figure above as an example, to prove  "\textit{Germany}" is a member of the tree the verifier hashes "\textit{Germany}" and hashes it with its sibling node to find the parent node. The parent node is then hashed with its sibling and the process repeats until the root node. The generated root node is compared with the known root node, should the hashes match then the element is verified. Proving membership requires checking $\log(n)$ tree levels, thus the operation takes $O(\log(n))$ time. 
-
-Another advantage to checking membership using a Merkle tree is that checking the membership of multiple leaf nodes can be done in $O(\log(n))$. In the example above by proving "\emph{Germany}" was a member of the tree, the verifier also verified that "\emph{France}" was a member of the tree.
-
-\subsection{Proving Non-Membership}
-
-	\begin{figure}[H]
-		\centering
-	\includegraphics[width=.8\textwidth]{../Images/merkle-example.png}
-	\caption{Show $x$ is not in the tree\cite{boneh2020graduate}}
-	%possible.
-\end{figure}
-
-While hashing a value and checking if it appears in the leaf nodes might appear to Non membership cannot be verified using a standard Merkle tree. Non membership can only be proven with a sorted Merkle tree.  Dan Boneh and Victor Shoup provide the following  algorithm:
-\begin{quote}
-	To produce the proof, the prover first locates the two adjacent leaves $x_i$ and $x_{i+1 }$in T that bracket $x$, namely $x_i < x < x_{i+1}$. Next, the prover provides a Merkle proof that $x_i$
-	is in position $i$ in $T$, and that $x_{i+1}$ is in position $i + 1$ in $T$. The verifier can check that these two leaves
-	are adjacent, and that $x_i < x < x_{i+1}$, and this proves that $x$ is not in $T$. 
-	\end{quote}
-	
-This operation takes $O(\log(n))$, but the additional requirement that the Merkle tree be sorted limits what operations can be used on the Merkle tree, notably merging.
-
-\subsection{Merging Merkle Trees}
-
-\begin{figure}[H]
-    \begin{center}
-	\begin{verbatim}
-             ROOT
-             /   \
-           /       \
-         /           \
-       /               \
-     ROOT1              ROOT2
-   /     \             /     \
- L1       R1         L2      R2
- /  \    /  \       /  \    /  \     
-L1.1  ....  R1.2   L2.1   ...   R2.2
-\end{verbatim}
- \end{center}
-\end{figure}
-
-
-Merging Merkle trees is an $O(1)$ operation of the root of two other Merkle trees and creates a new root node. This operation can be used to add individual nodes to a Merkle tree, but it creates an unbalanced tree.
-
-
-
-\section{Security}
-
-
-\subsection{Authenticated Data Structure}
-
-As defined by Boneh and Soup, Merkle Trees are secure data structures composed of three algorithms $D = (H, P, V )$\cite{boneh2020graduate}:
-\begin{itemize}
-	\item $H$ a secure hash function
-	\item $P$ a proof function that takes an element, location, and structure $(i, x, T)$ and returns a proof of a given element
-	\item $V$ a verification algorithm $V (i, x, y, \pi)$ that "accepts" or "rejects" a proof.
-\end{itemize}
-
-\subsection{Merkle Tree Attack Game}
-
-
-
-The attack game for Merkle trees is defined in Boneh and Shoup using the definition of an authenticated data structure. Given a Merkle tree $D = (H, P, V )$ defined over $(\mathcal{X}^{n}, \mathcal{Y})$, and a given adversary $\mathcal{A}$: 
-
-\begin{quote}
-	The adversary $A$ outputs a $y \in \mathcal{Y}$, a position $i \in \{1, \ldots , n\}$, and two pairs $(x, \pi)$ and $(x', \pi')$ where $x, x' \in \mathcal{X}$.
-\end{quote}
-
-$\mathcal{A}$ wins the game if $x \neq x'$ and $V(i, x, y, \pi)=V(i, x', y, \pi')=$accept. Define $\mathcal{A}$'s advantage with respect to $\mathcal{D}$, denoted $\mathrm{ADSadv}[\mathcal{A}, \mathcal{D}]$, as the probability that $\mathcal{A}$ wins the game\cite{boneh2020graduate}.
-
-\subsection{Security Proof}
-
-Using the definition of the authenticated data structure combined with the attack game above, the security of the Merkle tree is dependent on the underlying hash function. 
-
-The goal of the attacker is to generate a proof of membership at a given location. This can be reduced to creating a hash collision where the root node will be the same.
-
-In the case of a Merkle tree with only one leaf node, the attacker would need to generate a collision $c$ such that if $H(x) = x'$, then $H(c)=x'$ but $x\neq c$.
-
-In the case of a Merkle tree with two leaf nodes, the attacker can create a collision by colliding on the hash of the leaf node or by colliding against the root node. Let $a, b$ be the data blocks and let $H(a)=a', H(b)=b'$ which gives a root node $H(a'b')=r$. The attacker can either find $H(c)=c'$ such that $c' = a'$, $c'=b'$ or $H(c'b') = r$, $H(a'c') = r$. All attacks depend on a flaw in the hash function.
-
-More generally, $x \in T$ with hash $H(x) = h$ at position $i$. Let the attacker create a collision such that $H(y) = h$ but $x \neq y$. Thus the attacker's advantage against a Merkle tree is the same as the attacker's advantage against the hash function used by the Merkle tree.
 
 
 \section{Use Cases}
@@ -277,9 +167,13 @@ Merkle trees were incorrectly implemented in the Bitcoin protocol. This implemen
 
 BitTorrent uses Merkle trees for checking the integrity of torrented files. The torrented data is hashed into a Merkle Tree and the root hash is compared with a trusted peer to verify integrity\cite{bep30}. If the root hashes do not match then the nodes below are compared with the trusted peer. This process repeats until a non-matching block is reached. The advantage of using a Merkle tree over another data structure is finding corrupted data blocks in $O(\log(n))$ time. 
 
+\section{Simulation}
+
+We used the Cifar 10....
+
 \section{Closing}
 
-Merkle trees were not the first authenticated data structure, the Merkle Damgard construction provides several of the same operations \cite{boneh2020graduate}, but the number of properties in Merkle trees makes them desirable across a multitude of applications. The core construct of Merkle Trees, the tree, enables $O(\log (n))$  time operations in addition to speed-ups for proofs of many members. Their usage in various applications, notably in most cryptocurrencies, serves as evidence that Merkle trees will continue to propagate. 
+
 
 
 
