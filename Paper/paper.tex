@@ -17,8 +17,6 @@
 \usepackage{float}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
-
-
 \usepackage{multicol}
 \usepackage{tikz}
 \usetikzlibrary{snakes}
@@ -29,22 +27,19 @@
 
 \title{Bayesian Neural Networks}
 \author{
-	Blair, Taylor\\
+	Blair, Taylor
 	\and
-	Ava\\
+	Sorgmon, Ava
 	\and
-	Conor\\
+	Conor
 }
 \date{\today}
 \let\footnote=\endnote
 
-
 \usepackage{verbatim}
 
-
-
 \pagestyle{fancy} % Default page style 
-\lhead{Taylor Blair}
+\lhead{Blair, Sorgman, Conor}
 \chead{}
 \rhead{\thepage}
 \cfoot{}
@@ -52,7 +47,6 @@
 \renewcommand{\headrulewidth}{1pt}
 \renewcommand{\footrulewidth}{1pt}
 \renewcommand{\theendnote}{\Roman{endnote}} 
-
 
 
 
@@ -154,18 +148,8 @@ When referring to the parts of a Merkle tree the most common terminology is "roo
 
 \section{Use Cases}
 
-Merkle trees are used as authenticated data structures with optimal complexity for proving membership and comparing against other structures. 
+...
 
-\subsection{Bitcoin} \label{sec:Bitcoin}
-
-Bitcoin, and other cryptocurrencies, use Merkle trees for the commitment header.  The \textit{chain} in blockchain refers to the chain of receipts from processed transactions. It would be too slow to create a receipt for each transaction, so Bitcoin groups transactions into sections. The smaller group of transactions is a Merkle tree where the leaf nodes represent a single transaction. Thus the group of transactions results in a root hash which is used as the commitment header.
-
-Merkle trees were incorrectly implemented in the Bitcoin protocol. This implementation resulted in DOS attacks due to over-hashing and duplicate nodes (CVE-2012-2459). This bug was patched in a proposal that replaced the Merkle tree implementation\cite{friedenbach_alm_2017}.
-
-
-\subsection{BitTorrent Data Integrity} \label{sec:BitTorrent}
-
-BitTorrent uses Merkle trees for checking the integrity of torrented files. The torrented data is hashed into a Merkle Tree and the root hash is compared with a trusted peer to verify integrity\cite{bep30}. If the root hashes do not match then the nodes below are compared with the trusted peer. This process repeats until a non-matching block is reached. The advantage of using a Merkle tree over another data structure is finding corrupted data blocks in $O(\log(n))$ time. 
 
 \section{Simulation}
 

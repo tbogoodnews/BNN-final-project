@@ -11,3 +11,4 @@ cifar/*
 *.toc
 *synctex*
 *.run.xml
+*.snm
