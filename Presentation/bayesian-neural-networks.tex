@@ -73,15 +73,15 @@
 \begin{frame}{Applications}
 	\begin{multicols}{2}
 		\begin{figure}
-			\includegraphics[width=.45\textwidth]{../Images/xkcd-tree.png}
-			\caption{XKCD: "\textit{Tree}" \cite{xkcd-tree}}
+			\includegraphics[width=.45\textwidth]{../Images/big-pic-cnn.jpg}
+			\caption{Relevant XKCD needed... }
 		\end{figure}
 		
 		\columnbreak
 		
 		\null \vfill
 		
-		Merkle trees are secured data structures whose operations can be used to prove/verify membership of a node in $\mathcal{O}(\log(n))$ hashes.
+		What are .
 		%Shrinking public keys. \cite{boneh2020graduate}
 		
 		\vfill \null
@@ -94,8 +94,39 @@
 	% A convolutional neural network has the same structure as a regular neural network
 	% Except we slide over the image and take k
 	\begin{figure}
-		\includegraphics[width=.8\textwidth]{../Images/big-pic-cnn.jpg}
-		\caption{NEED NN PHOTO \cite{eli5CNN}}
+	\begin{tikzpicture}
+		% Define node styles
+		\tikzstyle{neuron} = [circle, draw, minimum size=1.5cm];
+		\tikzstyle{weight} = [font=\scriptsize];
+		
+		% Input layer (2 neurons)
+		\node[neuron] (input1) at (-2,1) {Input 1};
+		\node[neuron] (input2) at (-2,-1) {Input 2};
+		
+		% Hidden layer (3 neurons)
+		\node[neuron] (hidden1) at (2,2) {Hidden 1};
+		\node[neuron] (hidden2) at (2,0) {Hidden 2};
+		\node[neuron] (hidden3) at (2,-2) {Hidden 3};
+		
+		% Output layer (2 neurons for classification)
+		\node[neuron] (output1) at (6,1) {Class 1};
+		\node[neuron] (output2) at (6,-1) {Class 2};
+		
+		% Connections with weights
+		\draw[->] (input1) -- node[weight, above] {$w_{1,1}$} (hidden1);
+		\draw[->] (input2) -- node[weight, above] {$w_{2,1}$} (hidden1);
+		\draw[->] (input1) -- node[weight, right] {$w_{1,2}$} (hidden2);
+		\draw[->] (input2) -- node[weight, right] {$w_{2,2}$} (hidden2);
+		\draw[->] (input1) -- node[weight, above] {$w_{1,3}$} (hidden3);
+		\draw[->] (input2) -- node[weight, above] {$w_{2,3}$} (hidden3);
+		\draw[->] (hidden1) -- node[weight, right] {$v_{1,1}$} (output1);
+		\draw[->] (hidden2) -- node[weight, right] {$v_{2,1}$} (output1);
+		\draw[->] (hidden3) -- node[weight, right] {$v_{3,1}$} (output1);
+		\draw[->] (hidden1) -- node[weight, above] {$v_{12}$} (output2);
+		\draw[->] (hidden2) -- node[weight, above] {$v_{2,2}$} (output2);
+		\draw[->] (hidden3) -- node[weight, above] {$v_{3,2}$} (output2);
+	\end{tikzpicture}
+		\caption{Example neural network}
 	\end{figure}
 \end{frame}
 
@@ -146,7 +177,17 @@
 
 \section{Bayesian Neural Networks}
 
-\begin{frame}{Difference between BNNs and CNNs}
+\begin{frame}{Bayesian Neural Network}
+	% The relationship between BNN and CNNs is the same as NNs and CNNs
+	\begin{figure}
+		\includegraphics[width=.75\textwidth]{../Images/the_general_problem.png}
+		\caption{ XKCD: "\textit{The General Problem}" \cite{xkcd-general-problem}}
+	\end{figure}
+	The relationship between BNNs and BCNNs is the same as NNs and CNNs.
+\end{frame}
+
+
+\begin{frame}{Difference between BNNs and BCNNs}
 	% The relationship between BNN and CNNs is the same as NNs and CNNs
 	\begin{figure}
 		\includegraphics[width=.75\textwidth]{../Images/the_general_problem.png}
@@ -193,7 +234,7 @@
 	\end{figure}
 \end{frame}
 
-\begin{frame}{Confusion Matric}
+\begin{frame}{Confusion Matrix}
 	% Image Later
 	\begin{figure}
 		\includegraphics[width=.65\textwidth]{../Images/cifar-10.png}
