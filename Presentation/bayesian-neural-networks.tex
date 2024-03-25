@@ -28,8 +28,6 @@
 \institute{Reed College}
 \setbeamertemplate{navigation symbols}{} % Remove nav bar
 
-
-
 \begin{document}
 	\section{Intro}
 	
@@ -90,142 +88,119 @@
 	\end{multicols}
 \end{frame}
 
+\section{Neural Networks}
 
-\section{Operations}
-
-\begin{frame}{Proving Membership (\textit{singular})}
-	
+\begin{frame}{Neural Networks (NN)}
+	% A convolutional neural network has the same structure as a regular neural network
+	% Except we slide over the image and take k
 	\begin{figure}
-		\includegraphics[width=.8\textwidth]{../Images/merkle-example.png}
-		\caption{Show Germany exist in the tree \cite{buchannen_2022}}
-		% The reason we only need nodes 1, 34 and 567, is that we can regenerate Node 12 and Node 1234 from these values. Bitcoin, for example, uses this method in order to check the validity of a transaction within the block. We can then add our transactions into a Merkle Tree, and produce a root hash. Within the block we can then add the root hash of the previous block and the root hash of the next block, and thus interlock the blocks into a chain:
-		
+		\includegraphics[width=.8\textwidth]{../Images/big-pic-cnn.jpg}
+		\caption{NEED NN PHOTO \cite{eli5CNN}}
 	\end{figure}
 \end{frame}
 
-\begin{frame}{Proving Membership (\textit{multiple})}
-	
-	\begin{figure}
-		\includegraphics[width=.8\textwidth]{../Images/merkle-example.png}
-		\caption{Show Germany \textbf{and} France exist in the tree \cite{buchannen_2022}}
-		% The reason we only need nodes 1, 34 and 567, is that we can regenerate Node 12 and Node 1234 from these values. Bitcoin, for example, uses this method in order to check the validity of a transaction within the block. We can then add our transactions into a Merkle Tree, and produce a root hash. Within the block we can then add the root hash of the previous block and the root hash of the next block, and thus interlock the blocks into a chain:
-		
-	\end{figure}
-\end{frame}
-
-
-\begin{frame}{Joining trees}
-% This is key for understanding attacks
-
-\begin{figure}
-	See blackboard
-	\caption{ Create a new root node and connect trees $A$ and $B$  \cite{boneh2020graduate}}
-	% This is innefective if it is a sorted tree
-\end{figure}
-\end{frame}
-
-
-\begin{frame}{Equality}
-	% This is key for understanding attacks
-	
-	\begin{figure}
-		See blackboard
-		\caption{Show trees $A$ and $B$ are equal.}
-	\end{figure}
-\end{frame}
-
-
-
-\section{Security}
-
-% We next define security. We say that an adversary defeats the scheme if it can output a hash value y ∈ Y and then fool the verifier into accepting two different elements x and x 0 in X at some position i.
-
-\begin{frame}{Is it a secure authenticated data structure}
-	\begin{quote}
-		We next define security. We say that an adversary defeats the scheme if it can output a hash
-
-	\end{quote}
-
-	
-	\textbf{We assume the underlying hash function h is collision resistant.}
-\end{frame}
-
-% . The Merkle hash tree scheme is a secure authenticated data structure scheme, assuming the underlying hash function h is collision resistan
-
-\begin{frame}{Authenticated data structure scheme syntax}
-	An authenticated data structure scheme $\mathcal{D} = (H, P, V )$ defined over $(\mathcal{X}^{n}, \mathcal{Y})$
-	is a tuple of three efficient deterministic algorithms:
-	\begin{itemize}
-		\item $H$ is an algorithm that is invoked as $y \leftarrow H(T)$, where $T := (x_1,\ldots , x_n) \in \mathcal{X}^n$ and $y \in \mathcal{Y}$.
-		\item $P$ is an algorithm that is invoked as $\pi \leftarrow P(i, x, T)$, where $x \in \mathcal{X}$ and $1 \leq i \leq n$. The
-		algorithm outputs a proof $\pi$ that $x = x_i$, where $T := (x_1, \ldots , x_n)$.
-		\item $V$ is an algorithm that is invoked as $V (i, x, y, \pi)$ and outputs accept or reject.
-		\item We require that for all $T := (x_1,\ldots , x_n) \in \mathcal{X}^n$, and all $1 \leq i \leq n$, we have that
-		$$
-		V(i, x_i	, H(T), P(i, x_i, T))  = \mathrm{accept}
-		$$
-	\end{itemize}
-\end{frame}
-
-\begin{frame}{Attack Game}
-	For Merkle tree $D = (H, P, V )$ defined over $(\mathcal{X}^{n}, \mathcal{Y})$, and a given adversary $\mathcal{A}$: 
-	
-	\begin{quote}
-		The adversary $A$ outputs a $y \in \mathcal{Y}$, a position $i \in \{1, \ldots , n\}$, and two pairs $(x, \pi)$ and $(x', \pi')$ where $x, x' \in \mathcal{X}$.
-	\end{quote}
-
-$\mathcal{A}$ wins the game if $x \neq x'$ and $V(i, x, y, \pi)=V(i, x', y, \pi')=$accept. Define $\mathcal{A}$'s advantage with respect to $\mathcal{D}$, denoted $\mathrm{ADSadv}[\mathcal{A}, \mathcal{D}]$, as the probability that $\mathcal{A}$ wins the game. 
-\end{frame}
-
-\begin{frame}{Merkle hash tree scheme is a Secure Authenticated Data Structure Scheme}
-	
-	\begin{quote}The Merkle hash tree scheme is a secure authenticated data structure scheme,
-		assuming the underlying hash function $h$ is collision resistant.  
-	\end{quote}
-	
-\end{frame}
-
-
-
-\section{Implementations}
-
-\begin{frame}{Lessons from Bitcoin}
+\begin{frame}{Issues with Neural Networks}
 	\begin{multicols}{2}
 		\begin{figure}
-			\includegraphics[width=.45\textwidth]{../Images/xkcd-bitcoin.png}
-			\caption{XKCD: "\textit{2010 and 2020}" \cite{xkcd-bitcoin}}
+			\includegraphics[width=.4\textwidth]{../Images/xkcd_machine_learning.png}
+			\caption{XKCD: "\textit{Machine Learning}" \cite{xkcd-ml}}
 		\end{figure}
 		
 		\columnbreak
 		
 		\null \vfill
 		\begin{itemize}
-			\item \st{All cryptocurrencies are Ponzi schemes}
-			\item The \textit{chain} is actually collection of root nodes.
-			\item Bitcoin incorrectly implemented their merkle trees and it resulted in DOS attacks due to over hashing and duplicate nodes (CVE-2012-2459). 
+			\item Stir data and pray
+			\item 
 		\end{itemize}
 		\vfill \null
 	\end{multicols}
 \end{frame}
 
+\begin{frame}{Convolutional Neural Networks (CNN)}
+	% A convolutional neural network has the same structure as a regular neural network
+	% Except we slide over the image and take k
+	\begin{figure}
+		\includegraphics[width=.8\textwidth]{../Images/big-pic-cnn.jpg}
+		\caption{CNN pipeline \cite{eli5CNN}}
+	\end{figure}
+\end{frame}
 
-\begin{frame}{BitTorrent Data Integrity}
+\begin{frame}{Why we use CNNs}
 	\begin{multicols}{2}
 		\begin{figure}
-			\includegraphics[width=.45\textwidth]{../Images/pirate_bay.png}
-			\caption{XKCD: "\textit{Pirate Bay}" \cite{xkcd-pirate-bay}}
+			\includegraphics[width=.45\textwidth]{../Images/xkcd_self_driving.png}
+			\caption{XKCD: "\textit{Self Driving}" \cite{xkcd-self-driving}}
 		\end{figure}
 		
 		\columnbreak
 		
 		\null \vfill
 		\begin{itemize}
-			\item Finding errors in $\mathcal{O}(\log(n))$!
-			\item Only needing to compare nodes below incorrect nodes.
+			\item They are more efficient for image based tasks
+			\item Channels...
 		\end{itemize}
 		\vfill \null
 	\end{multicols}
 \end{frame}
+
+\section{Bayesian Neural Networks}
+
+\begin{frame}{Difference between BNNs and CNNs}
+	% The relationship between BNN and CNNs is the same as NNs and CNNs
+	\begin{figure}
+		\includegraphics[width=.75\textwidth]{../Images/the_general_problem.png}
+		\caption{ XKCD: "\textit{The General Problem}" \cite{xkcd-general-problem}}
+	\end{figure}
+		The relationship between BNNs and BCNNs is the same as NNs and CNNs.
+\end{frame}
+
+
+\section{Simulation}
+
+\begin{frame}{CIFAR-10}
+	% A convolutional neural network has the same structure as a regular neural network
+	% Except we slide over the image and take k
+	\begin{figure}
+		\includegraphics[width=.65\textwidth]{../Images/cifar-10.png}
+		\caption{Example CIFAR-10 images \cite{cifar10}}
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Hyperparameters}
+	% Replace cell text later
+	\centering
+	\begin{tabular}{|c||p{3cm}|p{3cm}|} % Adjust p{width} as needed
+		\hline
+		\textbf{Hyperparameter} & \textbf{CNN} & \textbf{BCNN} \\ [0.5ex] 
+		\hline\hline
+		Epochs & 500 & 500\\
+		\hline
+		Learning Rate & ....  & May be higher (0.01 - 0.1) due to simpler structure  \\
+		\hline
+		Regularization & L1/L2 weight decay or Dropout common to prevent overfitting & Can benefit from Dropout, but weight decay might be less crucial \\
+		\hline
+		Optimizer & Adamw  & Adamw  \\
+		\hline
+	\end{tabular}
+\end{frame}
+
+\begin{frame}{Results}
+	% Image Later
+	\begin{figure}
+		\includegraphics[width=.65\textwidth]{../Images/cifar-10.png}
+		\caption{Example CIFAR-10 images \cite{cifar10}}
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Confusion Matric}
+	% Image Later
+	\begin{figure}
+		\includegraphics[width=.65\textwidth]{../Images/cifar-10.png}
+		\caption{Example CIFAR-10 images \cite{cifar10}}
+	\end{figure}
+\end{frame}
+
 
 \begin{frame}[allowframebreaks]{References}
 \printbibliography

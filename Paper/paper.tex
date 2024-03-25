@@ -66,6 +66,11 @@
 
 \subsection{Neural Networks}
 
+Neural networks....
+
+\subsection{Convolutional Neural Networks }
+
+Convolutional neural networks are a type of neural network that is better suited for 
 
 \subsection{Bayesian Neural Networks}
 
@@ -115,30 +120,10 @@ Bayesian Neural were invented by Ralph Merkle. Ralph Merkle initially patented M
 		}
 	\end{tikzpicture}
 \end{figure}
-
+	
 
 
 \section{Literature Review}
-
-Merkle Trees are a component of several projects, as such many papers provide incremental changes towards certain operations on Merkle trees. This paper references the original patent by Ralph Merkle \cite{merkle-patent} in addition to descriptions of Merkle tree operations given by Boneh and Shoup \cite{boneh2020graduate}. As secondary sources, the implementation of Merkle trees in Bitcoin \cite{friedenbach_alm_2017} provides a real example of the impact of hash functions in addition to a whitepaper from the BitTorrent project\cite{bep30}.
-
-\section{Construction}
- Merkle trees are constructed from the bottom up by hashing data as the leaf nodes.
- 
- \begin{algorithm}[H]
- 	\caption{Merkle tree construction}
- 	\begin{algorithmic}
- 		\For{$i = 1,\ldots, n$} \Comment{Compute leaf node hashes}
- 		\State $y_i \leftarrow h(x_i)$  
- 		\EndFor
- 		 \For{$j= 1,\ldots, n-1$}  \Comment{Compute intermediate Nodes from $y_{n+1}, \ldots , y_{2n -1}$}
- 		\State $y_{i+n} \leftarrow h(y_{2i-1}, y_{2i}) $ \Comment{Hash leaf nodes below for new hash}
- 		\EndFor
- 		\State \Return $Y$ \Comment{Return tree where $y_{2n-1}$ is the root}
- 	\end{algorithmic}
- \end{algorithm}
- 
-When referring to the parts of a Merkle tree the most common terminology is "root hash" which refers to the hashed value of the root of the tree and "leaf hash" which refers to the hash for a given data block. 
 
 
 
@@ -153,7 +138,9 @@ When referring to the parts of a Merkle tree the most common terminology is "roo
 
 \section{Simulation}
 
-We used the Cifar 10....
+We use a bayesian convolutional neural network implementation from \href{https://github.com/kumar-shridhar/PyTorch-BayesianCNN}{Github} based on work from ... \cite{shridhar2019comprehensive} \cite{shridhar2018uncertainty}
+
+
 
 \section{Closing}
 
