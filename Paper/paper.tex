@@ -64,26 +64,7 @@
 
 \section{Introduction}
 
-\subsection{Neural Networks}
 
-Neural networks....
-
-\subsection{Convolutional Neural Networks }
-
-Convolutional neural networks are a type of neural network that is better suited for 
-
-\subsection{Bayesian Neural Networks}
-
-Bayesian Neural were invented by Ralph Merkle. Ralph Merkle initially patented Merkle trees for digital signatures....
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=.8\textwidth]{../Images/merkle-example.png}
-	\caption{Basic Merkle Tree\cite{wikipedia-merkle-tree}}
-\end{figure}
-
-
-....
 
 
 \subsection{History}
@@ -121,26 +102,104 @@ Bayesian Neural were invented by Ralph Merkle. Ralph Merkle initially patented M
 	\end{tikzpicture}
 \end{figure}
 	
+	
+\section{Neural Network}
 
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}
+		% Define node styles
+		\tikzstyle{neuron} = [circle, draw, minimum size=1.5cm];
+		\tikzstyle{weight} = [font=\scriptsize];
+		
+		% Input layer (2 neurons)
+		\node[neuron] (input1) at (-2,1) {Input 1};
+		\node[neuron] (input2) at (-2,-1) {Input 2};
+		
+		% Hidden layer (3 neurons)
+		\node[neuron] (hidden1) at (2,2) {Hidden 1};
+		\node[neuron] (hidden2) at (2,0) {Hidden 2};
+		\node[neuron] (hidden3) at (2,-2) {Hidden 3};
+		
+		% Output layer (2 neurons for classification)
+		\node[neuron] (output1) at (6,1) {Class 1};
+		\node[neuron] (output2) at (6,-1) {Class 2};
+		
+		% Connections with weights
+		\draw[->] (input1) -- node[weight, above] {$w_{1,1}$} (hidden1);
+		\draw[->] (input2) -- node[weight, above] {$w_{2,1}$} (hidden1);
+		\draw[->] (input1) -- node[weight, right] {$w_{1,2}$} (hidden2);
+		\draw[->] (input2) -- node[weight, right] {$w_{2,2}$} (hidden2);
+		\draw[->] (input1) -- node[weight, above] {$w_{1,3}$} (hidden3);
+		\draw[->] (input2) -- node[weight, above] {$w_{2,3}$} (hidden3);
+		\draw[->] (hidden1) -- node[weight, right] {$v_{1,1}$} (output1);
+		\draw[->] (hidden2) -- node[weight, right] {$v_{2,1}$} (output1);
+		\draw[->] (hidden3) -- node[weight, right] {$v_{3,1}$} (output1);
+		\draw[->] (hidden1) -- node[weight, above] {$v_{12}$} (output2);
+		\draw[->] (hidden2) -- node[weight, above] {$v_{2,2}$} (output2);
+		\draw[->] (hidden3) -- node[weight, above] {$v_{3,2}$} (output2);
+	\end{tikzpicture}
+	\caption{Example neural network}
+\end{figure}
 
-\section{Literature Review}
+Neural networks....
 
+\subsection{Convolutional Neural Networks }
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=.8\textwidth]{../Images/big-pic-cnn.jpg}
+	\caption{CNN pipeline \cite{eli5CNN}}
+\end{figure}
 
-\section{How it works}
+Convolutional neural networks (CNN) are a type of neural network that is better suited for image recognition. Instead of reading the entire image a CNN slides over the image... 
 
+The result is that the neural network trains faster..
 
+\section{Bayesian Neural Networks}
 
-\section{Use Cases}
+Bayesian neural networks take the
 
-...
+\subsection{Bayesian Conolutional Neural Networks}
 
+Same principle...
 
 \section{Simulation}
 
-We use a bayesian convolutional neural network implementation from \href{https://github.com/kumar-shridhar/PyTorch-BayesianCNN}{Github} based on work from ... \cite{shridhar2019comprehensive} \cite{shridhar2018uncertainty}
+We use a BCNN implementation from \href{https://github.com/kumar-shridhar/PyTorch-BayesianCNN}{Github} based on work from ... \cite{shridhar2019comprehensive} \cite{shridhar2018uncertainty}
+
+\subsection{CIFAR-10}
+
+	\begin{figure}H
+		\centering
+	\includegraphics[width=.75\textwidth]{../Images/cifar-10.png}
+	\caption{Example CIFAR-10 images \cite{cifar10}}
+\end{figure}
+
+The CIFAR-10 dataset...
 
 
+\subsection{Hyperparamaters}
+
+We used the following hyperparamaters for training
+	\begin{center}
+		\begin{tabular}{|c||p{3cm}|p{3cm}|} % Adjust p{width} as needed
+			\hline
+			\textbf{Hyperparameter} & \textbf{CNN} & \textbf{BCNN} \\ [0.5ex] 
+			\hline\hline
+			Epochs & 500 & 500\\
+			\hline
+			Learning Rate & ....  & May be higher (0.01 - 0.1) due to simpler structure  \\
+			\hline
+			Regularization & L1/L2 weight decay or Dropout common to prevent overfitting & Can benefit from Dropout, but weight decay might be less crucial \\
+			\hline
+			Optimizer & Adamw  & Adamw  \\
+			\hline
+		\end{tabular}
+	\end{center}
+	
+
+\subsection{Results}
 
 \section{Closing}
 
