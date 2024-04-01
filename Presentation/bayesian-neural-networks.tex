@@ -1,5 +1,6 @@
 \documentclass{beamer}
 \usetheme{Madrid}
+
 \usepackage{multicol}
 \definecolor{ReedRed}{RGB}{167, 14, 22} %Reed Red (primary)
 \usecolortheme[named=ReedRed]{structure}
@@ -7,15 +8,17 @@
 \useinnertheme{circles}
 \usepackage{soul}
 
+
 \usepackage{listings}
 
 
 \usepackage{multicol}
 \usepackage{tikz}
 \usetikzlibrary{snakes}
+\usetikzlibrary{positioning}
 \usepackage{rotating}
 
-\usepackage[style=apa,backend=biber,citestyle=numeric]{biblatex}
+\usepackage[backend=biber,citestyle=numeric]{biblatex}
 \addbibresource{../refs.bib}
 
 \title{Bayesian Neural Networks}
@@ -152,8 +155,44 @@
 	% A convolutional neural network has the same structure as a regular neural network
 	% Except we slide over the image and take k
 	\begin{figure}
-		\includegraphics[width=.8\textwidth]{../Images/big-pic-cnn.jpg}
+		\includegraphics[width=.9\textwidth]{../Images/big-pic-cnn.jpg}
 		\caption{CNN pipeline \cite{eli5CNN}}
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Convolutional Neural Networks (CNN)}
+	% A convolutional neural network has the same structure as a regular neural network
+	% Except we slide over the image and take k
+	\begin{figure}
+\begin{tikzpicture}[draw=black!50, node distance=0.5cm]
+	% Input matrix
+	\draw[step=0.5cm,color=black!30] (0,0) grid (3,3);
+	\foreach \x in {0,1,2}
+	\foreach \y in {0,1,2}
+	\node at (\x*0.5+0.25,\y*0.5+0.25) {$x_{\x,\y}$};
+	
+	% Convolutional kernel
+	\draw[step=0.5cm,color=red,thick] (0,0) grid (2,2);
+	\foreach \x in {0,1}
+	\foreach \y in {0,1}
+	\node[fill=red!30,minimum size=0.5cm] at (\x*0.5+0.25,\y*0.5+0.25) {};
+	
+	% Output feature map
+	\begin{scope}[shift={(4,0)}]
+		\draw[step=0.5cm,color=black!30] (0,0) grid (2,2);
+		\foreach \x in {0,1}
+		\foreach \y in {0,1}
+		\node[fill=blue!30,minimum size=0.5cm] at (\x*0.5+0.25,\y*0.5+0.25) {};
+	\end{scope}
+	
+	% Sliding operation
+	\draw[->,thick] (2,1) -- (3.5,1) node[midway,above] {Sliding};
+	
+	% Annotations
+	\node[below=of current bounding box.south] {Input Matrix};
+	\node[below=of current bounding box.south,shift={(4,0)}] {Output Feature Map};
+	\node at (0,-1) {Convolutional Kernel};
+\end{tikzpicture}
 	\end{figure}
 \end{frame}
 
@@ -239,11 +278,11 @@
 		\hline
 		\textbf{Hyperparameter} & \textbf{CNN} & \textbf{BCNN} \\ [0.5ex] 
 		\hline\hline
-		Epochs & 500 & 500\\
+		Epochs & 50 & 50\\
 		\hline
-		Learning Rate & ....  & May be higher (0.01 - 0.1) due to simpler structure  \\
+		Learning Rate & 0.0004  & 0.0004  \\
 		\hline
-		Regularization & L1/L2 weight decay or Dropout common to prevent overfitting & Can benefit from Dropout, but weight decay might be less crucial \\
+		Regularization Rate& 0.0001 & 0.0001 \\
 		\hline
 		Optimizer & Adamw  & Adamw  \\
 		\hline
@@ -252,17 +291,31 @@
 
 \begin{frame}{Results}
 	% Image Later
+	\centering
+	\begin{tabular}{|c||p{3cm}|p{3cm}|} % Adjust p{width} as needed
+		\hline
+		\textbf{Hyperparameter} & \textbf{CNN} & \textbf{BCNN} \\ [0.5ex] 
+		\hline\hline
+		Train Accuracy & 81.609\% & 70.664\%\\
+		\hline
+		Validation Accuracy & 64.499\%  & 61.399\%  \\
+		\hline
+		Optimizer & Adamw  & Adamw  \\
+		\hline
+	\end{tabular}
+\end{frame}
+
+\begin{frame}{Confusion Matrix (CNN)}
+	% Image Later
 	\begin{figure}
-		\includegraphics[width=.65\textwidth]{../Images/cifar-10.png}
-		\caption{Example CIFAR-10 images \cite{cifar10}}
+		\includegraphics[width=.95\textwidth]{../Images/CNN_confusion_matrix.png}
 	\end{figure}
 \end{frame}
 
-\begin{frame}{Confusion Matrix}
+\begin{frame}{Confusion Matrix (BCNN)}
 	% Image Later
 	\begin{figure}
-		\includegraphics[width=.65\textwidth]{../Images/cifar-10.png}
-		\caption{Example CIFAR-10 images \cite{cifar10}}
+		\includegraphics[width=.95\textwidth]{../Images/BNN_confusion_matrix.png}
 	\end{figure}
 \end{frame}
 
