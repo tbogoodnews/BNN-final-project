@@ -21,6 +21,7 @@
 \usepackage{tikz}
 \usetikzlibrary{snakes}
 \usepackage{rotating}
+\usetikzlibrary{positioning,shapes.multipart}
 
 \usepackage[style=apa,backend=biber,citestyle=numeric]{biblatex}
 \addbibresource{../refs.bib}
@@ -144,6 +145,48 @@
 
 Neural networks....
 
+
+Neural networks are made out of a series of neurons. 
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[
+		neuron/.style={
+			circle,
+			draw,
+			minimum size=1.5em,
+			inner sep=0pt,
+		},
+		font=\footnotesize,
+		>=latex
+		]
+		% Draw the neuron
+		\node [neuron] (neuron) at (0,0) {$\Sigma$};
+		% Draw the input nodes and labels
+		\foreach \i/\txt in {1/$x_1$,2/$x_2$,3/$x_n$} {
+			\node [neuron,left=of neuron] (input\i) at (-1.5,-\i +2) {\txt};
+			\draw[->] (input\i) -- node[above] {} (neuron);
+		}
+		% Draw the bias node and label
+		\node [neuron,left=of neuron] (bias) at (1.25,1) {Bias};
+		\draw[->] (bias) -- node[right] {} (neuron);
+		% Draw the activation function label
+		\node[align=center,below right =0.5em of neuron] {Activation \\ function};
+		% Draw the output node and label
+		\node [neuron,right=of neuron] (output) at (1.5,0) {Output};
+		\draw[->] (neuron) -- node[above] {} (output);
+		% Draw the relevant functions
+		%\draw[->] (0,-1.5) -- (0,-2.5) node[midway,right] {Weighted sum};
+		%\draw[->] (-1.5,-3.5) -- (-1.5,-4.5) node[midway,left] {Bias};
+		%\draw[->] (1.5,-0.5) -- (1.5,-1.5) node[midway,right] {Activation};
+		
+		% Draw the activation function shape
+		%\node[draw,rectangle,minimum width=2em,minimum height=2em] (actfunc) at (0,1) {};
+		%\node[above=0.1em of actfunc] {ReLU};
+		
+	\end{tikzpicture}
+	\caption{Neural network neuron}
+\end{figure}
+
 \subsection{Convolutional Neural Networks }
 
 \begin{figure}[H]
@@ -158,7 +201,21 @@ The result is that the neural network trains faster..
 
 \section{Bayesian Neural Networks}
 
-Bayesian neural networks take the
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=.55\textwidth]{../Images/example_bnn.png}
+	\caption{Example BNN  \cite{FleszarBNN}}
+\end{figure}
+
+Bayesian neural networks take the same principle as 
+
+Similar to a Neural network such as... 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=.55\textwidth]{../Images/BNN-neuron.png}
+	\caption{Example BNN Neuron \cite{hase2019machine}}
+\end{figure}
 
 \subsection{Bayesian Conolutional Neural Networks}
 
@@ -170,7 +227,7 @@ We use a BCNN implementation from \href{https://github.com/kumar-shridhar/PyTorc
 
 \subsection{CIFAR-10}
 
-	\begin{figure}H
+	\begin{figure}[H]
 		\centering
 	\includegraphics[width=.75\textwidth]{../Images/cifar-10.png}
 	\caption{Example CIFAR-10 images \cite{cifar10}}
@@ -201,9 +258,22 @@ We used the following hyperparamaters for training
 
 \subsection{Results}
 
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[width=.9\linewidth]{../Images/CNN_confusion_matrix}
+		\caption{CNN}
+	\end{subfigure}%
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[width=.9\linewidth]{../Images/BNN_confusion_matrix}
+		\caption{BCNN}
+	\end{subfigure}
+	\caption{Confusion matrices}
+\end{figure}
+
 \section{Closing}
-
-
 
 
 
