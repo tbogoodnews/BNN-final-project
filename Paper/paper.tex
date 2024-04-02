@@ -103,8 +103,18 @@
 	\end{tikzpicture}
 \end{figure}
 	
+\section{Machine Learning}
 	
-\section{Neural Network}
+% To understand the concept of deep learning, we first need to understand the broader area it is considered a subset of; machine learning. 
+Machine learning is considered to be a branch of artificial intelligence (AI) with the goal to help AI “learn” more, but specifically in a way that imitates the human process of learning through the use of data and algorithms\cite{ibmWhatIsML}. The term supervised learning refers to what one most commonly thought of methods of employing this practice, which consists of using a labeled dataset to train, or get an algorithm to learn, how to predict outcomes and/or classify data correctly. This process can be broken down into three major steps, which include a decision process, an error function, and an updating or optimization process \cite{berkelyWhatIsML}. In the first step, the decision process includes exactly what it sounds like; the decision process of the algorithm. This is the set of steps the algorithm takes after receiving the data based on the goal of the model. The second step in the process is the error function, which is the method of measuring chosen to see if the algorithm gave a “good” or “bad” input. The two most common choices of the error function is a simple yes or no on if a data point was classified correctly, or the difference in value between the predicted outcome and the actual observed outcome. Finally, the third and last step is what is considered to be the actual learning part of the process. This step, the updating or optimization process, requires the algorithm to review the past data and outputs of the error function in order to better correct its decision making process in the future.
+
+Throughout this report, we’ll often use the terms machine learning, deep learning, and neural networks. It is important to note that although these are fundamentally related fields, deep learning is a subfield of neural networks, and in turn, neural networks are a subfield in machine learning. Thus when we are looking at Bayesian neural networks, we are looking at a subfield of more general neural networks, and that Bayesian neural networks are a subfield of a subfield of machine learning. 
+
+
+% EDIT THIS SECTION But, back to deep learning! What sets deep learning apart from the more general machine learning is that unlike the supervised learning process that was described before, deep learning does not necessarily have to use pre labelled data sets. It can, if required, but the point of a deep learning algorithm is that one feature of the algorithm is that it itself can distinguish between the different types of data purely by looking at the data. This process of built in categorical distinction is extremely helpful, as it limits human interaction and interventions that are required in the learning process, as large amounts of data do not need to be “processed by hand” in order for the algorithm to make use of them (2). Deep learning models work through a “layering” process, where multiple layers of the original three steps listed above work together in the algorithmic process.
+
+	
+\subsection{Neural Network}
 
 \begin{figure}[H]
 	\centering
