@@ -141,12 +141,13 @@
 		\draw[->] (hidden3) -- node[weight, above] {$v_{3,2}$} (output2);
 	\end{tikzpicture}
 	\caption{Example neural network}
+	\label{fig:example-nn}
 \end{figure}
 
-Neural networks....
+A neural network takes a series of inputs... In figure \ref{fig:example-nn}, the network takes two inputs, has one hidden layer of size 
 
 
-Neural networks are made out of a series of neurons. 
+
 \begin{figure}[H]
 	\centering
 	\begin{tikzpicture}[
@@ -162,9 +163,9 @@ Neural networks are made out of a series of neurons.
 		% Draw the neuron
 		\node [neuron] (neuron) at (0,0) {$\Sigma$};
 		% Draw the input nodes and labels
-		\foreach \i/\txt in {1/$x_1$,2/$x_2$,3/$x_n$} {
-			\node [neuron,left=of neuron] (input\i) at (-1.5,-\i +2) {\txt};
-			\draw[->] (input\i) -- node[above] {} (neuron);
+		\foreach \i/\txt in {1/$1$,2/$2$,3/$n$} {
+			\node [neuron,left=of neuron] (input\i) at (-1.5,-\i +2) {x\txt};
+			\draw[->] (input\i) -- node[above] {$w$\txt} (neuron);
 		}
 		% Draw the bias node and label
 		\node [neuron,left=of neuron] (bias) at (1.25,1) {Bias};
@@ -185,7 +186,10 @@ Neural networks are made out of a series of neurons.
 		
 	\end{tikzpicture}
 	\caption{Neural network neuron}
+	\label{fig:neuron}
 \end{figure}
+
+Neural networks are made out of a series of neurons... The neurons take a set of inputs, multiplies the inputs by the weights, sums the weighted input, adds a bias, and runs the output through an activation function...
 
 \subsection{Convolutional Neural Networks }
 
@@ -193,11 +197,16 @@ Neural networks are made out of a series of neurons.
 	\centering
 	\includegraphics[width=.8\textwidth]{../Images/big-pic-cnn.jpg}
 	\caption{CNN pipeline \cite{eli5CNN}}
+	\label{fig:cnn-pipeline}
 \end{figure}
 
-Convolutional neural networks (CNN) are a type of neural network that is better suited for image recognition. Instead of reading the entire image a CNN slides over the image... 
+Convolutional neural networks (CNN) are a type of neural network that is better suited for image recognition. While this might sound like a seperate model structure, CNNs are largely the same. In figure \ref{fig:cnn-pipeline} the difference between a traditional neural network is the convolutional layer. Instead of reading the entire image at once, a convolutional layer slides over the image...
 
-The result is that the neural network trains faster..
+IMAGE OF SLIDING (gif split)
+
+ ... 
+
+
 
 \section{Bayesian Neural Networks}
 
@@ -217,9 +226,9 @@ Similar to a Neural network such as...
 	\caption{Example BNN Neuron \cite{hase2019machine}}
 \end{figure}
 
-\subsection{Bayesian Conolutional Neural Networks}
+\subsection{Bayesian Convolutional Neural Networks}
 
-Same principle...
+Bayesian convolutional neural network (BCNN) are similar to CNNs. The difference between is that BCNNs and a CNN is that the BCNN uses a bayesian neuron.
 
 \section{Simulation}
 
@@ -233,28 +242,32 @@ We use a BCNN implementation from \href{https://github.com/kumar-shridhar/PyTorc
 	\caption{Example CIFAR-10 images \cite{cifar10}}
 \end{figure}
 
-The CIFAR-10 dataset...
+The CIFAR-10 ((Canadian Institute For Advanced Research 10) dataset is a machine learning benchmarking set. It contatins 60,000 $16 \times 16$ RGB pictures of: airplanes, cars, birds, cats, deer, dogs, frogs, horses, ships, and trucks\cite{cifar10}. It is used... 
 
 
 \subsection{Hyperparamaters}
 
-We used the following hyperparamaters for training
+We used the following hyperparamaters for training:
+\begin{figure}[H]
 	\begin{center}
-		\begin{tabular}{|c||p{3cm}|p{3cm}|} % Adjust p{width} as needed
-			\hline
-			\textbf{Hyperparameter} & \textbf{CNN} & \textbf{BCNN} \\ [0.5ex] 
-			\hline\hline
-			Epochs & 500 & 500\\
-			\hline
-			Learning Rate & ....  & May be higher (0.01 - 0.1) due to simpler structure  \\
-			\hline
-			Regularization & L1/L2 weight decay or Dropout common to prevent overfitting & Can benefit from Dropout, but weight decay might be less crucial \\
-			\hline
-			Optimizer & Adamw  & Adamw  \\
-			\hline
-		\end{tabular}
-	\end{center}
-	
+	\begin{tabular}{|c||p{3cm}|p{3cm}|} % Adjust p{width} as needed
+		\hline
+		\textbf{Hyperparameter} & \textbf{CNN} & \textbf{BCNN} \\ [0.5ex] 
+		\hline\hline
+		Epochs & 500 & 500\\
+		\hline
+		Learning Rate & ....  & May be higher (0.01 - 0.1) due to simpler structure  \\
+		\hline
+		Regularization & L1/L2 weight decay or Dropout common to prevent overfitting & Can benefit from Dropout, but weight decay might be less crucial \\
+		\hline
+		Optimizer & Adamw  & Adamw  \\
+		\hline
+	\end{tabular}
+\end{center}
+\end{figure}
+
+
+In addition to the above, the two models have the same number of levels...
 
 \subsection{Results}
 
@@ -272,6 +285,8 @@ We used the following hyperparamaters for training
 	\end{subfigure}
 	\caption{Confusion matrices}
 \end{figure}
+
+The two have roughly similar accuracies given the model 
 
 \section{Closing}
 
