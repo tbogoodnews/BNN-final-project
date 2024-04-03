@@ -81,6 +81,49 @@
 	\end{figure}
 \end{frame}
 
+\begin{frame}{Neural Network Neuron}
+	% A convolutional neural network has the same structure as a regular neural network
+	% Except we slide over the image and take k
+	\begin{figure}
+		\begin{tikzpicture}[
+			neuron/.style={
+				circle,
+				draw,
+				minimum size=1.5em,
+				inner sep=0pt,
+			},
+			font=\footnotesize,
+			>=latex
+			]
+			% Draw the neuron
+			\node [neuron] (neuron) at (0,0) {$\Sigma$};
+			% Draw the input nodes and labels
+			\foreach \i/\txt in {1/$1$,2/$2$,3/$n$} {
+				\node [neuron,left=of neuron] (input\i) at (-1.5,-\i +2) {x\txt};
+				\draw[->] (input\i) -- node[above] {$w$\txt} (neuron);
+			}
+			% Draw the bias node and label
+			\node [neuron,left=of neuron] (bias) at (1.25,1) {Bias};
+			\draw[->] (bias) -- node[right] {} (neuron);
+			% Draw the activation function label
+			\node[align=center,below right =0.5em of neuron] {Activation \\ function};
+			% Draw the output node and label
+			\node [neuron,right=of neuron] (output) at (1.5,0) {Output};
+			\draw[->] (neuron) -- node[above] {} (output);
+			% Draw the relevant functions
+			%\draw[->] (0,-1.5) -- (0,-2.5) node[midway,right] {Weighted sum};
+			%\draw[->] (-1.5,-3.5) -- (-1.5,-4.5) node[midway,left] {Bias};
+			%\draw[->] (1.5,-0.5) -- (1.5,-1.5) node[midway,right] {Activation};
+			
+			% Draw the activation function shape
+			%\node[draw,rectangle,minimum width=2em,minimum height=2em] (actfunc) at (0,1) {};
+			%\node[above=0.1em of actfunc] {ReLU};
+			
+		\end{tikzpicture}
+		\caption{Example neural network neuron}
+	\end{figure}
+\end{frame}
+
 \begin{frame}{Issues with Neural Networks}
 	\begin{multicols}{2}
 		\begin{figure}
@@ -262,11 +305,11 @@
 		\hline
 		\textbf{Metric} & \textbf{CNN} & \textbf{BCNN} \\ [0.5ex] 
 		\hline\hline
-		Train Accuracy & 81.609\% & 70.664\%\\
+		Train Accuracy & 86.72\% & 81.55\%\\
 		\hline
-		Validation Accuracy & 64.499\%  & 61.399\%  \\
+		Validation Accuracy & 63.23\%  & 58.82\%  \\
 		\hline
-		Time to Train & 17 min 6.1 sec  & Adamw  \\
+		Time to Train & 17 min 6.1 sec  & OOPS FORGOT TO WRITE DOWN  \\
 		\hline
 	\end{tabular}
 \end{frame}
