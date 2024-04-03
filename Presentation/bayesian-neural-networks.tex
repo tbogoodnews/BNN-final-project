@@ -32,64 +32,12 @@
 \setbeamertemplate{navigation symbols}{} % Remove nav bar
 
 \begin{document}
-	\section{Intro}
+
 	
 \begin{frame}[plain]
     \maketitle
 \end{frame}
 
-
-
-\begin{frame}{A Brief History}
-	\begin{tikzpicture}[scale=0.5,every node/.style={outer sep=5pt}]
-		%Notation: {year, the title of the event}
-		%NOTE! Everyting is zero-based
-		\def\ourInfo{{
-				{"1979"," The patent a 'Method of providing digital signatures' is filed by \\ Ralph C. Merkle  \cite{merkle-patent}."},
-				{"1999","The  original patent expires."},
-				{"2009","Bitcoin uses Merkle Trees for 'block header commitment.' \cite{friedenbach_alm_2017}"},			
-				{"2023","Twenty students taking a cryptography class ."},
-		}}
-		\pgfmathsetmacro{\length}{3}% Zero based.
-		
-		% Loop through the array containing all events.
-		\foreach \i in {0, ..., \length}{
-			\pgfmathsetmacro{\year}{\ourInfo[\i][0]}% Get the left cell (year)
-			\pgfmathsetmacro{\eventName}{\ourInfo[\i][1]}% Get the right cell (event name)
-			\draw[thick,red] (0,-2*\i-2)--(0,-2*\i);% Draw vertical line
-			\ifnum \i=0 % Should be in red text
-			\draw(0,-2*\i-1) node[black, right, align = left]{\eventName};% Display the event name
-			\draw(0,-2*\i-1) node[black, left] {\year};
-			\else % Should be in black text
-			\draw(0,-2*\i-1) node[right, black]{\eventName};% Display the event name
-			\draw(0,-2*\i-1) node[left] {\year};% Display the year
-			\fi
-		}
-		% Draw the bullet with the dash
-		\foreach \i in {0, ..., \length}{
-			\filldraw[draw = white, fill = red,thick] (0,-2*\i-1) circle (5pt);
-			\draw[thick,red] (-12pt,-2*\i-1)--(0,-2*\i-1);
-		}
-	\end{tikzpicture}
-\end{frame}
-
-\begin{frame}{Applications}
-	\begin{multicols}{2}
-		\begin{figure}
-			\includegraphics[width=.4\textwidth]{../Images/xkcd_simple_answers.png}
-			\caption{XKCD: "\textit{Simple Answers}" \cite{xkcd-simple-answers}}
-		\end{figure}
-		
-		\columnbreak
-		
-		\null \vfill
-		
-		What are....
-
-		
-		\vfill \null
-	\end{multicols}
-\end{frame}
 
 \section{Neural Networks}
 
@@ -250,6 +198,24 @@
 	\end{multicols}
 \end{frame}
 
+\begin{frame}{Applications}
+	\begin{multicols}{2}
+		\begin{figure}
+			\includegraphics[width=.4\textwidth]{../Images/xkcd_simple_answers.png}
+			\caption{XKCD: "\textit{Simple Answers}" \cite{xkcd-simple-answers}}
+		\end{figure}
+		
+		\columnbreak
+		
+		\null \vfill
+		
+		What are....
+		
+		
+		\vfill \null
+	\end{multicols}
+\end{frame}
+
 \begin{frame}{Difference between BNNs and BCNNs}
 	% The relationship between BNN and CNNs is the same as NNs and CNNs
 	\begin{figure}
@@ -278,13 +244,11 @@
 		\hline
 		\textbf{Hyperparameter} & \textbf{CNN} & \textbf{BCNN} \\ [0.5ex] 
 		\hline\hline
-		Epochs & 50 & 50\\
+		Epochs & 100 & 100\\
 		\hline
-		Time to train & Adamw  & Adamw  \\
+		Learning Rate & 0.001  & 0.003  \\
 		\hline
-		Learning Rate & 0.0004  & 0.0004  \\
-		\hline
-		Regularization Rate& 0.0001 & 0.0001 \\
+		Regularization Rate& 0.001 & 0.001 \\
 		\hline
 		Optimizer & Adamw  & Adamw  \\
 		\hline
@@ -296,13 +260,13 @@
 	\centering
 	\begin{tabular}{|c||p{3cm}|p{3cm}|} % Adjust p{width} as needed
 		\hline
-		\textbf{Metrix} & \textbf{CNN} & \textbf{BCNN} \\ [0.5ex] 
+		\textbf{Metric} & \textbf{CNN} & \textbf{BCNN} \\ [0.5ex] 
 		\hline\hline
 		Train Accuracy & 81.609\% & 70.664\%\\
 		\hline
 		Validation Accuracy & 64.499\%  & 61.399\%  \\
 		\hline
-		Optimizer & Adamw  & Adamw  \\
+		Time to Train & 17 min 6.1 sec  & Adamw  \\
 		\hline
 	\end{tabular}
 \end{frame}
