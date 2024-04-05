@@ -1,7 +1,8 @@
 ---
 title: "Project Update 1"
 date: "April 4th, 2024"
-author: "Ava, Connor, Taylor"
+author: "Ava, Conor, Taylor"
+colorlinks: true
 ---
 
 
