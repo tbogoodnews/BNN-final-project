@@ -17,7 +17,7 @@ class BBBLinear(ModuleWrapper):
         self.in_features = in_features
         self.out_features = out_features
         self.use_bias = bias
-        self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
 
         if priors is None:
             priors = {

@@ -15,7 +15,7 @@ import config_bayesian as cfg
 
 
 # CUDA settings
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+device = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
 
 mnist_set = None
 notmnist_set = None

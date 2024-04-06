@@ -16,7 +16,7 @@ import config_mixtures as cfg
 import uncertainty_estimation as ue
 
 
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+device = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
 
 
 class Pass(nn.Module):

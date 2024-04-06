@@ -16,7 +16,7 @@ from main_bayesian import train_model as train_bayesian, validate_model as valid
 from main_frequentist import train_model as train_frequentist, validate_model as validate_frequentist
 
 # CUDA settings
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+device = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
 
 
 def train_splitted(num_tasks, bayesian=True, net_type='lenet'):

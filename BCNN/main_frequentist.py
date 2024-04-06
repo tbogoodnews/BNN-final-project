@@ -17,7 +17,7 @@ from models.NonBayesianModels.LeNet import LeNet
 from models.NonBayesianModels.ThreeConvThreeFC import ThreeConvThreeFC
 
 # CUDA settings
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+device = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
 
 
 def getModel(net_type, inputs, outputs):

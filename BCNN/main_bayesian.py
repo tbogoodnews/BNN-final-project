@@ -17,7 +17,7 @@ from models.BayesianModels.BayesianAlexNet import BBBAlexNet
 from models.BayesianModels.BayesianLeNet import BBBLeNet
 
 # CUDA settings
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+device = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
 
 def getModel(net_type, inputs, outputs, priors, layer_type, activation_type):
     if (net_type == 'lenet'):
