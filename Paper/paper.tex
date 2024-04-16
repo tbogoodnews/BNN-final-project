@@ -31,9 +31,9 @@
 \author{
 	Blair, Taylor
 	\and
-	Sorgmon, Ava
+	Sorgman, Ava
 	\and
-	Conor
+	Bekaert, Conor
 }
 \date{\today}
 \let\footnote=\endnote
@@ -73,11 +73,11 @@
 %Machine learning is considered to be a branch of artificial intelligence (AI) with the goal to help AI “learn” more, but specifically in a way that imitates the human process of learning through the use of data and algorithms\cite{ibmWhatIsML}. 
 Machine learning includes a variety of topics of which artifical intelligence (AI) and neural networks are a subset. Neural networks in particular involve an abstract imitation of the human brain using simulated neurons which is trained on data using particular algorithms. 
 
-The term supervised learning refers to a specific common method of machine learning which uses a labeled dataset to train a model to correctly predict the labels via some training algorithm. A classification problem in supervised learning involves predictions where all labels are grouped into a set of categories. The training process can be broken down into three major steps, which include a decision process, an error function, and an optimization process \cite{berkelyWhatIsML}. The decision process is the set of steps the algorithm takes after receiving the data based on the goal of the model. The second step in the process is the error function, which is the method of measuring chosen to see if the algorithm gave a “good” or “bad” input. The two most common choices of the error function is a simple yes or no on if a data point was classified correctly in the case of classification, or the difference in value between the predicted outcome and the actual observed outcome for continuous values. Finally, the third and last step is the part of the process that implements learning. This step, the updating or optimization process, requires the algorithm to review the past data and outputs of the error function in order to better correct its decision making process in the future.
+The term supervised learning refers to a specific common method of machine learning that uses a labeled dataset to train a model to correctly predict the labels via some training algorithm. A classification problem in supervised learning involves predictions where all labels are grouped into a set of categories. The training process can be broken down into three major steps, which include a decision process, an error function, and an optimization process \cite{berkelyWhatIsML}. The decision process is the set of steps the algorithm takes after receiving the data based on the goal of the model. The second step in the process is the error function, which is the method of measuring chosen to see if the algorithm gave a ``good" or ``bad" input. The two most common choices of the error function are a simple yes or no on whether a data point was classified correctly in the case of classification, or the difference in value between the predicted outcome and the actual observed outcome for continuous values. Finally, the third and last step is the part of the process that implements learning. This step, the updating or optimization process, requires the algorithm to review the past data and outputs of the error function in order to better correct its decision-making process in the future.
 
-Throughout this report, we’ll often use the terms machine learning, deep learning, and neural networks. It is important to note that although these are fundamentally related fields, deep learning is a subfield of neural networks that in particular focuses on more complicated neural networks, while neural networks are a subfield in machine learning. 
+Throughout this report, we will often use the terms machine learning, deep learning, and neural networks. It is important to note that although these are fundamentally related fields, deep learning is a subfield of neural networks that in particular focuses on more complicated neural networks, while neural networks are a subfield in machine learning. 
 
-We will be training a classifier on labeled images in a supervised learning process to predict what is depicted in the image from a range of possibilities such as dog, cat, and plane.
+We will be training a classifier on labeled images in a supervised learning process to predict what is depicted in the image from a range of possibilities such as dog, cat, and plane. These images come from the CIFAR-10 dataset, which will be discussed more in detail later in this paper.
 
 
 % EDIT THIS SECTION But, back to deep learning! What sets deep learning apart from the more general machine learning is that unlike the supervised learning process that was described before, deep learning does not necessarily have to use pre labelled data sets. It can, if required, but the point of a deep learning algorithm is that one feature of the algorithm is that it itself can distinguish between the different types of data purely by looking at the data. This process of built in categorical distinction is extremely helpful, as it limits human interaction and interventions that are required in the learning process, as large amounts of data do not need to be “processed by hand” in order for the algorithm to make use of them (2). Deep learning models work through a “layering” process, where multiple layers of the original three steps listed above work together in the algorithmic process.
@@ -194,7 +194,13 @@ IMAGE OF SLIDING (gif split)
 	\caption{Example BNN  \cite{FleszarBNN}}
 \end{figure}
 
-Bayesian neural networks operate the same way as a normal 
+Bayesian neural networks (BNN) take the same principle as your typical neural network, but factor in a measure of uncertainty into the prediction of the network. This uncertainty, of course, comes from the Bayesian theory of statistics, which believes that all events have some level of randomness, and thus must have uncertainty in their prediction. 
+
+One way this uncertainty can be built into the model is through a prior probability distribution. Uncertainty estimates of the model can be obtained from the parameters of the BNN in their probability distributions \cite{shridhar2019comprehensive}. The average estimate of the parameters is computed through multiple different models during the training process, which can regularize the network. However, it can be very difficult to calculate the model posterior of a BNN. Approximations of the posterior of the model are most often used, but those are often still very computationally intensive. Different methods of approximating the model's posterior is a current research topic within the field.
+
+The two main types of uncertainty within a BNN are aleatoric uncertainty and epistemic uncertainty. Aleatoric uncertainty is a measure of the uncertainty in the observations, which is uncertainty that is inherent in any form of data. This type of uncertainty is modeled by placing a prior distribution over the output of the BNN model. In contrast, epistemic uncertainty is a measure of the uncertainty caused by the model and its predictions. It is modeled by a prior distribution over the model's weights, and an analysis of how much the weights of the model change when the data given to the model changes \cite{shridhar2019comprehensive}.
+
+But what is so great about calculating uncertainty in our model? Well, it's that our predictions become more uncertain. One of the major issues with neural networks as they are is they are highly prone to overfitting the data. Although they are great at predictions on the training data they are given, they often struggle with predictions on the testing data they are given due to the issue of overfitting. Many methods have been developed in order to regularize neural networks to work to prevent this from occurring, such as weight control measures. Using the Bayesian framework of uncertainty and building it into a model serves as a built-in prevention of overfitting.
 
 \subsection{Bayesian Neural Network Neuron}
 
@@ -226,8 +232,7 @@ We use a BCNN implementation from \href{https://github.com/kumar-shridhar/PyTorc
 	\caption{Example CIFAR-10 images \cite{cifar10}}
 \end{figure}
 
-The CIFAR-10 ((Canadian Institute For Advanced Research 10) dataset is a popular machine learning  dataset set. It contatins 60,000 $16 \times 16$ color pictures of: airplanes, cars, birds, cats, deer, dogs, frogs, horses, ships, and trucks\cite{cifar10}. Because of its simple task and variety of images, it is often used as a baseline task for new  model structures. 
-
+The CIFAR-10 (Canadian Institute For Advanced Research 10) dataset is a machine learning benchmarking set. It contains $60,000$ $32 \times 32$ RGB pictures of airplanes, cars, birds, cats, deer, dogs, frogs, horses, ships, and trucks \cite{cifar10}. The ten classes within the dataset are mutually exclusive, meaning there is no image containing multiple of the objects mentioned above. The number of images is split evenly between each class, with $6,000$ images per each type of object. It is a very popular data set (in fact the most common) to use in machine learning and training neural networks, due to the extensive size, as well as the decent number of categories. The purpose of the images within the dataset being of a lower resolution is to allow researchers to see more quickly (and with less computation effort) how well an algorithm works on classification with the dataset. Convolutional neural networks are often seen to be the ``best" at classifying CIFAR-10.
 
 \subsection{Hyperparamaters}
 
