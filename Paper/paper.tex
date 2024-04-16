@@ -22,6 +22,7 @@
 \usetikzlibrary{snakes}
 \usepackage{rotating}
 \usetikzlibrary{positioning,shapes.multipart}
+ \usepackage{listings}
 
 \usepackage[style=apa,backend=biber,citestyle=numeric]{biblatex}
 \addbibresource{../refs.bib}
@@ -122,8 +123,9 @@ We will be training a classifier on labeled images in a supervised learning proc
 	\label{fig:example-nn}
 \end{figure}
 
-A neural network takes a series of inputs... In figure \ref{fig:example-nn}, the network takes two inputs, has one hidden layer of size 
+A neural network takes a series of inputs. An example of a neural network with two inputs, one hidden layer of size three, and two outputs appears in figure \ref{fig:example-nn}  
 
+\subsection{Neural Network Neurons}
 
 
 \begin{figure}[H]
@@ -182,8 +184,6 @@ Convolutional neural networks (CNN) are a type of neural network that is better 
 
 IMAGE OF SLIDING (gif split)
 
- ... 
-
 
 
 \section{Bayesian Neural Networks}
@@ -194,15 +194,21 @@ IMAGE OF SLIDING (gif split)
 	\caption{Example BNN  \cite{FleszarBNN}}
 \end{figure}
 
-Bayesian neural networks take the same principle as 
+Bayesian neural networks operate the same way as a normal 
 
-Similar to a Neural network such as... 
+\subsection{Bayesian Neural Network Neuron}
+
+Similar to a neural network such as... 
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=.55\textwidth]{../Images/BNN-neuron.png}
 	\caption{Example BNN Neuron \cite{hase2019machine}}
 \end{figure}
+
+\subsubsection{Priors}
+
+This section was requested by Micheal. 
 
 \subsection{Bayesian Convolutional Neural Networks}
 
@@ -220,7 +226,7 @@ We use a BCNN implementation from \href{https://github.com/kumar-shridhar/PyTorc
 	\caption{Example CIFAR-10 images \cite{cifar10}}
 \end{figure}
 
-The CIFAR-10 ((Canadian Institute For Advanced Research 10) dataset is a machine learning benchmarking set. It contatins 60,000 $16 \times 16$ RGB pictures of: airplanes, cars, birds, cats, deer, dogs, frogs, horses, ships, and trucks\cite{cifar10}. It is used... 
+The CIFAR-10 ((Canadian Institute For Advanced Research 10) dataset is a popular machine learning  dataset set. It contatins 60,000 $16 \times 16$ color pictures of: airplanes, cars, birds, cats, deer, dogs, frogs, horses, ships, and trucks\cite{cifar10}. Because of its simple task and variety of images, it is often used as a baseline task for new  model structures. 
 
 
 \subsection{Hyperparamaters}
@@ -229,34 +235,72 @@ We used the following hyperparamaters for training:
 \begin{figure}[H]
 	\begin{center}
 	\begin{tabular}{|c||p{3cm}|p{3cm}|} % Adjust p{width} as needed
-		\hline
-		\textbf{Hyperparameter} & \textbf{CNN} & \textbf{BCNN} \\ [0.5ex] 
-		\hline\hline
-		Epochs & 500 & 500\\
-		\hline
-		Learning Rate & ....  & May be higher (0.01 - 0.1) due to simpler structure  \\
-		\hline
-		Regularization & L1/L2 weight decay or Dropout common to prevent overfitting & Can benefit from Dropout, but weight decay might be less crucial \\
-		\hline
-		Optimizer & Adamw  & Adamw  \\
-		\hline
-	\end{tabular}
+	\hline
+	\textbf{Hyperparameter} & \textbf{CNN} & \textbf{BCNN} \\ [0.5ex] 
+	\hline\hline
+	Epochs & 100 & 100\\
+	\hline
+	Learning Rate & 0.001  & 0.003  \\
+	\hline
+	Regularization Rate& 0.001 & 0.001 \\
+	\hline
+	Optimizer & Adamw  & Adamw  \\
+	\hline
+\end{tabular}
 \end{center}
 \end{figure}
 
 
-In addition to the above, the two models have the same number of levels...
+In addition to the hyperparamaters above, the two models have the same number of layers and levels. We did not adjust the priors, as those were set by the BCNN layer code from \cite{shridhar2018uncertainty}. 
+
 
 \subsection{Results}
+
+
+
+\begin{figure}[H]
+	\begin{tabular}{|c||p{3cm}|p{3cm}|} % Adjust p{width} as needed
+		\hline
+		\textbf{Metric} & \textbf{CNN} & \textbf{BCNN} \\ [0.5ex] 
+		\hline\hline
+		Train Accuracy & 84.96\% & 81.27\%\\
+		\hline
+		Validation Accuracy & 61.76\%  & 59.21\%  \\
+		\hline
+		Time to Train & 16 min 11 sec  & 22 min 11 sec  \\
+		\hline
+	\end{tabular}
+\end{figure}
+
+
+The results we achieved with training were about the same between the BCNN and the CNN. However, the bayesian model took longer to train.
 
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}{.5\textwidth}
 		\centering
+		\includegraphics[width=\linewidth]{../Images/CNN_val_acc_over_time}
+		\caption{CNN}
+	\end{subfigure}% //  
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{../Images/BNN_val_acc_over_time}
+		\caption{BCNN}
+	\end{subfigure}
+	\caption{Train vs validation accuracy over time}
+	\label{fig:train-v-val}
+\end{figure}
+
+Additionally, neither model converged with the train and validation accuracy, this is an indication that we might need to increase the regularization rate. Another thing to note from figure \ref{fig:train-v-val} is that the BCNN took longer to divirge from the train accuracy.
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{\textwidth}
+		\centering
 		\includegraphics[width=.9\linewidth]{../Images/CNN_confusion_matrix}
 		\caption{CNN}
-	\end{subfigure}%
-	\begin{subfigure}{.5\textwidth}
+	\end{subfigure} \\% //  
+	\begin{subfigure}{\textwidth}
 		\centering
 		\includegraphics[width=.9\linewidth]{../Images/BNN_confusion_matrix}
 		\caption{BCNN}
@@ -264,7 +308,7 @@ In addition to the above, the two models have the same number of levels...
 	\caption{Confusion matrices}
 \end{figure}
 
-The two have roughly similar accuracies given the model 
+The two models have the same set of confusions
 
 \section{Closing}
 

@@ -251,9 +251,10 @@
 		\columnbreak
 		
 		\null \vfill
-		
-		What are....
-		
+		\begin{itemize}
+			\item Sparse data
+			\item uncertainty on 
+		\end{itemize}
 		
 		\vfill \null
 	\end{multicols}
@@ -305,13 +306,27 @@
 		\hline
 		\textbf{Metric} & \textbf{CNN} & \textbf{BCNN} \\ [0.5ex] 
 		\hline\hline
-		Train Accuracy & 86.72\% & 81.55\%\\
+		Train Accuracy & 84.96\% & 81.27\%\\
 		\hline
-		Validation Accuracy & 63.23\%  & 58.82\%  \\
+		Validation Accuracy & 61.76\%  & 59.21\%  \\
 		\hline
-		Time to Train & 17 min 6.1 sec  & OOPS FORGOT TO WRITE DOWN  \\
+		Time to Train & 16 min 11 sec  & 22 min 11 sec  \\
 		\hline
 	\end{tabular}
+\end{frame}
+
+\begin{frame}{Accuracy over time (CNN)}
+	% Image Later
+	\begin{figure}
+		\includegraphics[width=.75\textwidth]{../Images/CNN_val_acc_over_time}
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Accuracy over time (BNN)}
+	% Image Later
+	\begin{figure}
+		\includegraphics[width=.75\textwidth]{../Images/BNN_val_acc_over_time}
+	\end{figure}
 \end{frame}
 
 \begin{frame}{Confusion Matrix (CNN)}
