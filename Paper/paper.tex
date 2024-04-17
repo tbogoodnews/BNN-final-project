@@ -123,10 +123,17 @@ We will be training a classifier on labeled images in a supervised learning proc
 	\label{fig:example-nn}
 \end{figure}
 
-A neural network takes a series of inputs. An example of a neural network with two inputs, one hidden layer of size three, and two outputs appears in figure \ref{fig:example-nn}  
+There are many effective introductions to neural networks to any level of detail available elsewhere, so we will present a straightforward summary of the concepts required for understanding the work of this paper.
+
+Many models for analyzing data involve making an assumption about the functional form of the outputs given the inputs or predictors. Neural networks are no exception - at the most basic conceptual level, a neural network is just a really complicated function that has the potential to represent many patterns and dimensions through its complexity. Their name comes from the inspiration they take from the human brain, the idea that enough neurons with enough connections between them can encode everything needed for effective predictions. Indeed, the fundamental unit of a neural network is a neuron with its associated connections.
+
+Neural networks are typically organized in a series of layers of many neurons, where each individual neuron of one layer is connected to every neuron of the previous layer. Data flows from an initial input layer, through hidden layers, then into the outputs as visualized in Figure \cite{fig:example-nn}. The connections are assigned certain weights, which measure the influence of a neuron on the next layer. This structure ultimately yields a complicated yet well-defined function because every step is a clearly-defined arithmetic operation, and they are all composed into a single whole. Neural networks can have different architectures depending on the organization and types of layers involved.
 
 \subsection{Neural Network Neurons}
 
+As shown in Figure \ref{fig:neuron}, any single neuron is connected to the neurons $x_1, x_2, ..., x_n$ from the previous layer. The outputs of the previous neurons become the inputs to the new neuron by means of connections with weights $w_1, w_2, ..., w_n$ associated with them (each previous neuron has a certain weight). The neuron itself first takes a value calculated as a weighted sum $\sum_i w_i x_i$ of the inputs $x_i$ to it, then typically an additive bias is included. Lastly, the value is passed through an activation function which restricts the value to a certain range, typically $[0,1]$. 
+
+The weights and the biases of a neural network are the parameters, and they are the values that are tuned in the training process. In a sense, they represent the "memory" of the network, whatever it has learned from training. For any particular network architecture (meaning the choice of types of layers and their order), once the model has been trained with a particular architecture, the parameters are all you need to run that network on new data to make predictions. 
 
 \begin{figure}[H]
 	\centering
@@ -169,7 +176,7 @@ A neural network takes a series of inputs. An example of a neural network with t
 	\label{fig:neuron}
 \end{figure}
 
-Neural networks are made out of a series of neurons... The neurons take a set of inputs, multiplies the inputs by the weights, sums the weighted input, adds a bias, and runs the output through an activation function...
+%Neural networks are made out of a series of neurons... The neurons take a set of inputs, multiplies the inputs by the weights, sums the weighted input, adds a bias, and runs the output through an activation function...
 
 \subsection{Convolutional Neural Networks }
 
@@ -180,9 +187,9 @@ Neural networks are made out of a series of neurons... The neurons take a set of
 	\label{fig:cnn-pipeline}
 \end{figure}
 
-Convolutional neural networks (CNN) are a type of neural network that is better suited for image recognition. While this might sound like a seperate model structure, CNNs are largely the same. In figure \ref{fig:cnn-pipeline} the difference between a traditional neural network is the convolutional layer. Instead of reading the entire image at once, a convolutional layer slides over the image...
+Convolutional neural networks (CNN) are a type of neural network that is better suited for image recognition. While this might sound like a separate model structure, CNNs are largely the same. The primary difference from a traditional neural network is the convolutional layer, as highlighted in Figure \cite{fig:cnn-pipeline}. Instead of reading the entire image at once, a convolutional layer slides a small window over the image, shrinking that window even further by the application of a convolution operation. Once the window has slid over the entire image, a downsized image is formed that may encode useful information more densely. Because of this downsizing action, CNNs typically require fewer parameters relative to the traditional neural networks described previously, which improves training costs and the capabilities of the model. 
 
-IMAGE OF SLIDING (gif split)
+%IMAGE OF SLIDING (gif split)
 
 
 
@@ -202,23 +209,51 @@ The two main types of uncertainty within a BNN are aleatoric uncertainty and epi
 
 But what is so great about calculating uncertainty in our model? Well, it's that our predictions become more uncertain. One of the major issues with neural networks as they are is they are highly prone to overfitting the data. Although they are great at predictions on the training data they are given, they often struggle with predictions on the testing data they are given due to the issue of overfitting. Many methods have been developed in order to regularize neural networks to work to prevent this from occurring, such as weight control measures. Using the Bayesian framework of uncertainty and building it into a model serves as a built-in prevention of overfitting.
 
+A Bayesian neural network introduces priors on the parameters $\theta$ of a neural network and uses the data to adjust these priors to reach posterior distributions for these parameters. Recall that a (trained) neural network is really just determined by its parameters - the weights and biases. This gives rise to the conceptual interpretation that a Bayesian neural network is an infinite ensemble of possible neural networks which can be sampled to obtain any number of individual networks. 
+%(... could talk about how this enables comparison between networks, uncertainty, etc)
+
+Constructing a Bayesian neural network involves selecting a model architecture and choosing the priors, which are also known as the "stochastic model" in this context. The definition of Bayesian neural networks provides flexibility, since the primary difference is that neuron weights get distributions instead of individual values. As a result, most model architectures that work for a typical neural network also work for a Bayesian version of that network. Lastly, the training of a Bayesian neural network uses techniques such as MCMC for inference. 
+
 \subsection{Bayesian Neural Network Neuron}
 
-Similar to a neural network such as... 
+A visualization of a Bayesian neuron appears in Figure \ref{fig:bnn-neuron}. It is in fact quite similar to Figure \ref{fig:neuron}, with the essential difference that the individual values from before have been replaced with distributions. Within a neuron, the distributions from input neurons are weighted by the weight distributions and combined together along with the bias distribution. After passing through the activation function, the neuron output is produced. 
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=.55\textwidth]{../Images/BNN-neuron.png}
 	\caption{Example BNN Neuron \cite{hase2019machine}}
+	\label{fig:bnn-neuron}
 \end{figure}
 
 \subsubsection{Priors}
 
-This section was requested by Micheal. 
+The Bayesian paradigm requires a prior on the parameters of a neural network to facilitate training. However, making choice of a prior on all the parameters of a network, following anything other than a simple concept, is difficult, especially given the limited understanding of how priors at one layer affects the next in general. For the purposes of this work, only one prior-selection scheme will be considered, since considering many methods would require introducing many further new concepts. 
+
+A choice of prior that is both commonly used and intuitive is an independent normal distribution on each weight. In particular, a $\mathcal{N}(0, \sigma^2)$ distribution with zero mean and some standard deviation $\sigma$ for each particular weight typically works. This can be thought of as a reasonable choice of vague prior. Since further interpretation of how these priors influence the model becomes even more complicated for other priors, selecting a more informative prior would be tricky. For an example of this complexity, Vladimirova et al. contend that for a network with these priors whose activation functions satisfying a certain "extended envelope property", the priors on the $k^{th}$ hidden layer become sub-Weibull-distributed with parameter $k/2$ conditional on the data passing through the network. Such interpretation is valuable, but beyond the scope of this paper.
+
+However, it turns out there is suggestive parallel between a prior in a Bayesian neural network and regularization in a typical neural network. Regularization is an additional term in the loss that penalizes large weights. Intuitively, this helps resist overfitting by preventing a single neuron from overly influencing the model, since such a neuron may be overemphasizing a fluke of the training set rather than a general pattern. The regularization term typically takes the form $\alpha ||w||_p$  where $||\cdot||_p$ is some choice of metric on $R^n$, typically $p=1$ (Manhattan/taxicab distance) or $p=2$ (Euclidean distance), and $\alpha$ is the regularization hyperparameter that controls how strongly large weights are penalized. 
+
+As in Jospin et al., consider network parameters $\theta$ with a loss function $L$ assumed to be the negative log likelihood loss, where $D_y$ represents the true labels for the training data $D_x$. Suppose the network does not use regularization. Maximum likelihood estimation aims to find the choice of $\theta$ which minimizes the loss on the given data:
+$$
+\hat{\theta} = \arg \min_{\theta} \left\{ L_{D_x, D_y} (\theta) \right\}.
+$$
+From the Bayesian perspective, since the negative log likelihood loss is used, this means that
+$$
+\hat{\theta} = \arg \min_{\theta} \left\{- \log P(D_y|D_x, \theta) \right\} = \arg \max_{\theta} \left\{ P(D_y|D_x, \theta) \right\}.
+$$
+This formula indicates to find the choice of $\theta$ that maximizes the probability of the true labels $D_y$ for the data given the observed $D_x$ values for parameters $\theta$. Now, suppose a prior $p(\theta)$ is introduced:
+$$
+\hat{\theta} = \arg \max_{\theta} P(D_y|D_x, \theta) p(\theta).
+$$
+When converted back to the frequentist paradigm under log-likelihood loss, the multiplicative factor for the prior becomes an additive regularization term:
+$$
+\hat{\theta} = \arg \min_{\theta} L_{D_x, D_y} (\theta) + reg(\theta), \quad reg(\theta) = -\log(p(\theta)).
+$$
+Jospin et al. state that normal prior selected above is "equivalent to a weighted $\ell_2$ regularization (with weights $1/\sigma$) when training a point estimate network." In this sense, the Bayesian model which utilizes priors specified in advance helps prevent overfitting simply by including priors in the first place. 
 
 \subsection{Bayesian Convolutional Neural Networks}
 
-Bayesian convolutional neural network (BCNN) are similar to CNNs. The difference between is that BCNNs and a CNN is that the BCNN uses a bayesian neuron.
+As discussed previously, Bayesian neural networks work with most functional models that work for typical neural networks. Convolutional neural networks are no exception - by simply replacing typical CNNs with Bayesian counterparts containing Bayesian neurons and the appropriate operations, a Bayesian convolutional neural network (BCNN) is created. 
 
 \section{Simulation}
 
