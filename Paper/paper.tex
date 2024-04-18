@@ -64,8 +64,6 @@
 
 \tableofcontents
 
-\section{Introduction}
-
 	
 \section{Machine Learning}
 	
@@ -271,7 +269,8 @@ The CIFAR-10 (Canadian Institute For Advanced Research 10) dataset is a machine 
 
 \subsection{Hyperparamaters}
 
-We used the following hyperparamaters for training:
+We choose to keep the number of layers and levels in the model the same to keep the models roughly equal, but tuned the hyperparamaters seperately. We did not adjust the priors on the BCNN, as those were set by the BCNN layer code from \cite{shridhar2018uncertainty}. We found the following hyperparemeters to created the best model:
+
 \begin{figure}[H]
 	\begin{center}
 	\begin{tabular}{|c||p{3cm}|p{3cm}|} % Adjust p{width} as needed
@@ -290,8 +289,6 @@ We used the following hyperparamaters for training:
 \end{center}
 \end{figure}
 
-
-In addition to the hyperparamaters above, the two models have the same number of layers and levels. We did not adjust the priors, as those were set by the BCNN layer code from \cite{shridhar2018uncertainty}. 
 
 
 \subsection{Results}
@@ -312,7 +309,6 @@ In addition to the hyperparamaters above, the two models have the same number of
 	\end{tabular}
 \end{figure}
 
-
 The results we achieved with training were about the same between the BCNN and the CNN. However, the bayesian model took longer to train.
 
 \begin{figure}[H]
@@ -331,7 +327,7 @@ The results we achieved with training were about the same between the BCNN and t
 	\label{fig:train-v-val}
 \end{figure}
 
-Additionally, neither model converged with the train and validation accuracy, this is an indication that we might need to increase the regularization rate. Another thing to note from figure \ref{fig:train-v-val} is that the BCNN took longer to divirge from the train accuracy.
+Based on the divergent lines in figure \ref{fig:train-v-val}, the model needs tuning. Specifically, the regularization rate needs to be raised. One interesting thing that appears in the figures, is that the BCNN took longer to diverge from the train accuracy compared to CNN.
 
 \begin{figure}[H]
 	\centering
@@ -346,13 +342,10 @@ Additionally, neither model converged with the train and validation accuracy, th
 		\caption{BCNN}
 	\end{subfigure}
 	\caption{Confusion matrices}
+	\label{fig:confusion}
 \end{figure}
 
-The two models have the same set of confusions
-
-\section{Closing}
-
-
+Based on the confusion matrix from two models in \ref{fig:confusion}, the two models confuse similar sets of classes. Both models struggle to differentiate animals, but the BCNN has poorer accuracy on the classes that are easily confused. 
 
 \newpage
 
