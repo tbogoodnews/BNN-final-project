@@ -81,7 +81,7 @@
 	\end{figure}
 \end{frame}
 
-\begin{frame}{Neural Network Neuron}
+\begin{frame}{A Neural Network Neuron}
 	% A convolutional neural network has the same structure as a regular neural network
 	% Except we slide over the image and take k
 	\begin{figure}
@@ -136,19 +136,15 @@
 		\null \vfill
 		\begin{itemize}
 			\item Stir data and pray
-			\item 
+			\item Interpretability problems
+			\item Lots of data required
+			\item Risk of overfitting
+			\item Unpredictable failures to generalize
+			\item No uncertainty quantification
+			\item Computationally expensive
 		\end{itemize}
 		\vfill \null
 	\end{multicols}
-\end{frame}
-
-\begin{frame}{Convolutional Neural Networks (CNN)}
-	% A convolutional neural network has the same structure as a regular neural network
-	% Except we slide over the image and take k
-	\begin{figure}
-		\includegraphics[width=.9\textwidth]{../Images/big-pic-cnn.jpg}
-		\caption{CNN pipeline \cite{eli5CNN}}
-	\end{figure}
 \end{frame}
 
 \begin{frame}{Convolutional Neural Networks (CNN)}
@@ -187,6 +183,16 @@
 	\end{figure}
 \end{frame}
 
+\begin{frame}{Convolutional Neural Networks (CNN)}
+	% A convolutional neural network has the same structure as a regular neural network
+	% Except we slide over the image and take k
+	\begin{figure}
+		\includegraphics[width=.9\textwidth]{../Images/big-pic-cnn.jpg}
+		\caption{CNN pipeline \cite{eli5CNN}}
+	\end{figure}
+\end{frame}
+
+
 \begin{frame}{Why we use CNNs}
 	\begin{multicols}{2}
 		\begin{figure}
@@ -198,8 +204,10 @@
 		
 		\null \vfill
 		\begin{itemize}
-			\item They are more efficient for image based tasks
-			\item Channels...
+			\item Fewer parameters
+			\item Encode spatial patterns
+			\item More efficient for image tasks
+			%\item Channels...
 		\end{itemize}
 		\vfill \null
 	\end{multicols}
@@ -234,8 +242,11 @@
 		
 		\null \vfill
 		\begin{itemize}
-			\item We can put uncertainty on our weights
-			\item ....
+			\item Well-calibrated uncertainty
+			\item Handles sparse data while minimizing overfitting
+			\item More predictable failures
+			\item Formalizes prior knowledge and assumptions
+			\item Inherent sequentiality
 		\end{itemize}
 		\vfill \null
 	\end{multicols}
@@ -252,8 +263,23 @@
 		
 		\null \vfill
 		\begin{itemize}
+			\item Uncertainty quantification
+				\begin{itemize}
+					\item Engineering, Medicine, Finance, ...
+				\end{itemize}
 			\item Sparse data
-			\item uncertainty on 
+				\begin{itemize}
+					\item Anywhere data is expensive
+					\item Medical diagnosis
+					\item Molecular biology
+				\end{itemize}
+			\item Warnings before failing to generalize
+				\begin{itemize}
+					\item Autonomous driving
+					\item Engineering
+				\end{itemize}
+
+			\item Sequentiality
 		\end{itemize}
 		
 		\vfill \null
