@@ -12,6 +12,7 @@
 	citecolor   = black %Colour of citations
 }
 \usepackage{graphicx}
+\usepackage{amsmath}
 \usepackage{subcaption}
 \usepackage{endnotes}
 \usepackage{float}
@@ -81,7 +82,8 @@ We will be training a classifier on labeled images in a supervised learning proc
 % EDIT THIS SECTION But, back to deep learning! What sets deep learning apart from the more general machine learning is that unlike the supervised learning process that was described before, deep learning does not necessarily have to use pre labelled data sets. It can, if required, but the point of a deep learning algorithm is that one feature of the algorithm is that it itself can distinguish between the different types of data purely by looking at the data. This process of built in categorical distinction is extremely helpful, as it limits human interaction and interventions that are required in the learning process, as large amounts of data do not need to be “processed by hand” in order for the algorithm to make use of them (2). Deep learning models work through a “layering” process, where multiple layers of the original three steps listed above work together in the algorithmic process.
 
 	
-\subsection{Neural Network}
+\subsection{Introduction to Neural Networks}
+
 
 \begin{figure}[H]
 	\centering
@@ -121,17 +123,19 @@ We will be training a classifier on labeled images in a supervised learning proc
 	\label{fig:example-nn}
 \end{figure}
 
-There are many effective introductions to neural networks to any level of detail available elsewhere, so we will present a straightforward summary of the concepts required for understanding the work of this paper.
+There are many effective introductions to neural networks to any level of detail available elsewhere, but we will present a summary of the core concepts here. 
 
-Many models for analyzing data involve making an assumption about the functional form of the outputs given the inputs or predictors. Neural networks are no exception - at the most basic conceptual level, a neural network is just a really complicated function that has the potential to represent many patterns and dimensions through its complexity. Their name comes from the inspiration they take from the human brain, the idea that enough neurons with enough connections between them can encode everything needed for effective predictions. Indeed, the fundamental unit of a neural network is a neuron with its associated connections.
+Many models for analyzing data involve making an assumption about the functional form of the outputs given the inputs or predictors. Neural networks are no exception - at the most basic conceptual level, a neural network is just a really complicated function that has the potential to represent many patterns through its complexity. Their name comes from the inspiration they take from the human brain, the idea that enough neurons with enough connections between them can encode everything needed for effective predictions. Indeed, the fundamental unit of a neural network is a neuron and its associated connections.
 
-Neural networks are typically organized in a series of layers of many neurons, where each individual neuron of one layer is connected to every neuron of the previous layer. Data flows from an initial input layer, through hidden layers, then into the outputs as visualized in Figure \cite{fig:example-nn}. The connections are assigned certain weights, which measure the influence of a neuron on the next layer. This structure ultimately yields a complicated yet well-defined function because every step is a clearly-defined arithmetic operation, and they are all composed into a single whole. Neural networks can have different architectures depending on the organization and types of layers involved.
+Neural networks are typically organized in a series of layers of many neurons, where each individual neuron of one layer is connected to every neuron of the previous layer. Data flows from an initial input layer, through hidden layers, then into the outputs as visualized in Figure \cite{fig:example-nn}. The connections are assigned certain weights, which measure the influence of a neuron on the next layer. The next section will describe the structure of neurons in a linear layer, which is a typical type of layer. %This structure ultimately yields a complicated yet well-defined function because every step is a clearly-defined arithmetic operation, and they are all composed into a single whole. %Neural networks can have different architectures depending on the organization and types of layers involved.
+
 
 \subsection{Neural Network Neurons}
 
-As shown in Figure \ref{fig:neuron}, any single neuron is connected to the neurons $x_1, x_2, ..., x_n$ from the previous layer. The outputs of the previous neurons become the inputs to the new neuron by means of connections with weights $w_1, w_2, ..., w_n$ associated with them (each previous neuron has a certain weight). The neuron itself first takes a value calculated as a weighted sum $\sum_i w_i x_i$ of the inputs $x_i$ to it, then typically an additive bias is included. Lastly, the value is passed through an activation function which restricts the value to a certain range, typically $[0,1]$. 
+% As shown in Figure \ref{fig:neuron}, any single neuron is connected to the neurons $x_1, x_2, ..., x_n$ from the previous layer. The outputs of the previous neurons become the inputs to the new neuron by means of connections with weights $w_1, w_2, ..., w_n$ associated with them (each previous neuron has a certain weight). The neuron itself first takes a value calculated as a weighted sum $\sum_i w_i x_i$ of the inputs $x_i$ to it, then typically an additive bias is included. Lastly, the value is passed through an activation function which restricts the value to a certain range, typically $[0,1]$. 
 
-The weights and the biases of a neural network are the parameters, and they are the values that are tuned in the training process. In a sense, they represent the "memory" of the network, whatever it has learned from training. For any particular network architecture (meaning the choice of types of layers and their order), once the model has been trained with a particular architecture, the parameters are all you need to run that network on new data to make predictions. 
+%The weights and the biases of a neural network are the parameters, and they are the values that are tuned in the training process. In a sense, they represent the "memory" of the network, whatever it has learned from training. For any particular network architecture (meaning the choice of types of layers and their order), once the model has been trained with a particular architecture, the parameters are all you need to run that network on new data to make predictions. 
+
 
 \begin{figure}[H]
 	\centering
@@ -174,7 +178,28 @@ The weights and the biases of a neural network are the parameters, and they are 
 	\label{fig:neuron}
 \end{figure}
 
-%Neural networks are made out of a series of neurons... The neurons take a set of inputs, multiplies the inputs by the weights, sums the weighted input, adds a bias, and runs the output through an activation function...
+A neural network neuron in a linear layer is, in practice, a varying real scalar value. The value is produced from the values $X = (x_1, ..., x_n)$ of the neurons in the previous layer by taking the dot product of $X$ with the weight parameters $W = (w_1, ..., w_n)$, plus an additive bias $b$. This weighted sum $X \cdot W + b$ is then passed through some activation function $\text{Act}(\cdot)$ which applies a nonlinear transformation to improve efficiency. As such, the action of a particular layer on the previous layer's neurons to produce the next value can be characterized as $X_{i+1} = \text{Act}(X_{i} \cdot W_{i} + b_{i})$. Typical activation functions include the Rectified Linear Unit (ReLU) defined by $\text{ReLU}(x) = \max (0, x)$ and the sigmoid, $\sigma(x) = \frac{1}{1 + e^{-x}}$.
+
+This process can be generalized to an entire layer at once via matrix multiplication (which encodes the dot product), and this also improves efficiency. These layers are nested interatively to the depth of the network - for example, a network with three linear layers could take the form
+$$
+	\text{ReLU}(\text{ReLU}(\text{ReLU}(x \times W_1 + b_1) \times W_2 + b_2) \times W_3 + b_3).
+$$
+A network architecture is generally defined by the depth (number of layers), the number of neurons/parameters in the layers, and the type of layer used. 
+
+
+	
+\subsection{Neural Network Training}
+
+
+To train a neural network requires a loss function $L$, such as the MSE or the cross-entropy loss (cross-entropy loss is essentially the log-likelihood loss from frequentist maximum likelihood estimation). An optimization process, typically a variant of stochastic gradient descent, adjusts the neural network parameters $\beta$ (the weights $W$ and biases $b$) to minimize this loss on the provided data. Stochastic gradient descent updates the parameters at each step by the formula
+$$
+\beta_{n+1} = \beta_n - \alpha (\nabla \ell(x_s, y_s, \beta)),
+$$
+where $\alpha$ is the learning rate (how quickly parameter adjustments are made). Minimization is implemented using a stochastic approximation of the gradient of the loss (hence the name stochastic gradient descent). The true loss $L(\beta)$ on the whole dataset $x, y$ is approximated via an averaged estimate $\ell(x_s, y_s, \beta)$ on a subset $(x_s, y_s)$ of the data. Gradients are calculated via \textit{backpropagation}, which is beyond the scope of this discussion, but essentially consists of iterated application of the chain rule. 
+
+Each step of training is called an \textit{epoch}. In each epoch, the data passes through the network, the gradients are approximated via backpropagation, and the parameters are updated with this approximation. These parameters, matrices of weights and biases, \textit{are} the network once it is trained - they represent the "memory" of the network, whatever it has learned from the training data. Predictions are obtained as the outputs after passing new data through the same network architecture with these weights and biases specified. This is a "black box" model because there is no clear interpretation of the giant matrices of parameters - in the end, they're just floating-point numbers. 
+
+
 
 \subsection{Convolutional Neural Networks }
 
@@ -199,18 +224,29 @@ Convolutional neural networks (CNN) are a type of neural network that is better 
 	\caption{Example BNN  \cite{FleszarBNN}}
 \end{figure}
 
-Bayesian neural networks (BNN) take the same principle as your typical neural network, but factor in a measure of uncertainty into the prediction of the network. This uncertainty, of course, comes from the Bayesian theory of statistics, which believes that all events have some level of randomness, and thus must have uncertainty in their prediction. 
+Bayesian neural networks (BNN) are similar in principle to typical neural networks, but represent uncertainty in the predictions of a neural network by assigning probability distributions to the parameter (weight and bias) values and updating these distributions. This follows Bayesian principles, where rather than producing a single estimated value as in typical neural networks, the "evidence" provided by the data updates a distribution of possible true values. 
 
-One way this uncertainty can be built into the model is through a prior probability distribution. Uncertainty estimates of the model can be obtained from the parameters of the BNN in their probability distributions \cite{shridhar2019comprehensive}. The average estimate of the parameters is computed through multiple different models during the training process, which can regularize the network. However, it can be very difficult to calculate the model posterior of a BNN. Approximations of the posterior of the model are most often used, but those are often still very computationally intensive. Different methods of approximating the model's posterior is a current research topic within the field.
+% take the same principle as your typical neural network, but factor in a measure of uncertainty into the prediction of the network. This uncertainty, of course, comes from the Bayesian theory of statistics, which believes that all events have some level of randomness, and thus must have uncertainty in their prediction. 
+
+Uncertainty can be built into these models through prior probability distributions. 
+%Uncertainty estimates of the model can be obtained from the parameters of the BNN in their probability distributions \cite{shridhar2019comprehensive}. 
+The average estimate of the parameters is computed through multiple different models during the training process, which can regularize the network. However, it can be very difficult to calculate the model posterior of a BNN. Approximations of the posterior of the model are most often used, but those are often still very computationally intensive. Different methods of approximating the model's posterior is a current research topic within the field.
 
 The two main types of uncertainty within a BNN are aleatoric uncertainty and epistemic uncertainty. Aleatoric uncertainty is a measure of the uncertainty in the observations, which is uncertainty that is inherent in any form of data. This type of uncertainty is modeled by placing a prior distribution over the output of the BNN model. In contrast, epistemic uncertainty is a measure of the uncertainty caused by the model and its predictions. It is modeled by a prior distribution over the model's weights, and an analysis of how much the weights of the model change when the data given to the model changes \cite{shridhar2019comprehensive}.
 
-But what is so great about calculating uncertainty in our model? Well, it's that our predictions become more uncertain. One of the major issues with neural networks as they are is they are highly prone to overfitting the data. Although they are great at predictions on the training data they are given, they often struggle with predictions on the testing data they are given due to the issue of overfitting. Many methods have been developed in order to regularize neural networks to work to prevent this from occurring, such as weight control measures. Using the Bayesian framework of uncertainty and building it into a model serves as a built-in prevention of overfitting.
+But what is so great about calculating uncertainty in our model? %Well, it's that our predictions become more uncertain. 
+One of the major issues with neural networks as they are is they are highly prone to overfitting the data. Although they are great at predictions on the training data they are given, they often struggle with predictions on the testing data they are given due to the issue of overfitting. Many methods have been developed in order to regularize neural networks to work to prevent this from occurring, such as weight control measures. The Bayesian framework, and particularly the choice of prior distributions, builds this into the model, which helps prevent overfitting. 
+%Using the Bayesian framework of uncertainty and building it into a model serves as a built-in prevention of overfitting.
 
-A Bayesian neural network introduces priors on the parameters $\theta$ of a neural network and uses the data to adjust these priors to reach posterior distributions for these parameters. Recall that a (trained) neural network is really just determined by its parameters - the weights and biases. This gives rise to the conceptual interpretation that a Bayesian neural network is an infinite ensemble of possible neural networks which can be sampled to obtain any number of individual networks. 
+%A Bayesian neural network introduces priors on the parameters $\theta$ of a neural network and uses the data to adjust these priors to reach posterior distributions for these parameters. 
+Recall that a (trained) neural network is really just determined by its parameters - the weights and biases. This gives rise to the conceptual interpretation that a Bayesian neural network is an infinite ensemble of possible neural networks which can be sampled to obtain any number of individual networks. 
 %(... could talk about how this enables comparison between networks, uncertainty, etc)
 
-Constructing a Bayesian neural network involves selecting a model architecture and choosing the priors, which are also known as the "stochastic model" in this context. The definition of Bayesian neural networks provides flexibility, since the primary difference is that neuron weights get distributions instead of individual values. As a result, most model architectures that work for a typical neural network also work for a Bayesian version of that network. Lastly, the training of a Bayesian neural network uses techniques such as MCMC for inference. 
+Constructing a Bayesian neural network involves selecting a model architecture and choosing the priors, which are also known as the "stochastic model" in this context. The definition of Bayesian neural networks provides flexibility, since the primary difference is that neuron weights get distributions instead of individual values. As a result, most model architectures that work for a typical neural network also work for a Bayesian version of that network. %Lastly, the training of a Bayesian neural network uses techniques such as MCMC for inference. 
+
+% TODO: Fill in information about how distributions are imposed on a BNN
+
+
 
 \subsection{Bayesian Neural Network Neuron}
 
