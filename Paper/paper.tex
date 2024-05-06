@@ -189,13 +189,13 @@ A network architecture is generally defined by the depth (number of layers), the
 
 	
 \subsection{Neural Network Training}
-
+\label{subsection:neural-network-training}
 
 To train a neural network requires a loss function $L$, such as the MSE or the cross-entropy loss (cross-entropy loss is essentially the log-likelihood loss from frequentist maximum likelihood estimation). An optimization process, typically a variant of stochastic gradient descent, adjusts the neural network parameters $\beta$ (the weights $W$ and biases $b$) to minimize this loss on the provided data. Stochastic gradient descent updates the parameters at each step by the formula
 $$
 \beta_{n+1} = \beta_n - \alpha (\nabla \ell(x_s, y_s, \beta)),
 $$
-where $\alpha$ is the learning rate (how quickly parameter adjustments are made). Minimization is implemented using a stochastic approximation of the gradient of the loss (hence the name stochastic gradient descent). The true loss $L(\beta)$ on the whole dataset $x, y$ is approximated via an averaged estimate $\ell(x_s, y_s, \beta)$ on a subset $(x_s, y_s)$ of the data. Gradients are calculated via \textit{backpropagation}, which is beyond the scope of this discussion, but essentially consists of iterated application of the chain rule. 
+where $\alpha$ is the \textit{learning rate}, which controls how quickly parameter adjustments are made. Minimization is implemented using a stochastic approximation of the gradient of the loss (hence the name stochastic gradient descent). The true loss $L(\beta)$ on the whole dataset $x, y$ is approximated via an averaged estimate $\ell(x_s, y_s, \beta)$ on a subset $(x_s, y_s)$ of the data. Gradients are calculated via \textit{backpropagation}, which is beyond the scope of this discussion, but essentially consists of iterated application of the chain rule. 
 
 Each step of training is called an \textit{epoch}. In each epoch, the data passes through the network, the gradients are approximated via backpropagation, and the parameters are updated with this approximation. These parameters, matrices of weights and biases, \textit{are} the network once it is trained - they represent the "memory" of the network, whatever it has learned from the training data. Predictions are obtained as the outputs after passing new data through the same network architecture with these weights and biases specified. This is a "black box" model because there is no clear interpretation of the giant matrices of parameters - in the end, they're just floating-point numbers. 
 
@@ -244,8 +244,8 @@ Recall that a (trained) neural network is really just determined by its paramete
 
 Constructing a Bayesian neural network involves selecting a model architecture and choosing the priors, which are also known as the "stochastic model" in this context. The definition of Bayesian neural networks provides flexibility, since the primary difference is that neuron weights get distributions instead of individual values. As a result, most model architectures that work for a typical neural network also work for a Bayesian version of that network. %Lastly, the training of a Bayesian neural network uses techniques such as MCMC for inference. 
 
-% TODO: Fill in information about how distributions are imposed on a BNN
-
+% TODO: Fill in information about how distributions are imposed on a BNN. See other TODO with some progress at the end of the following subsection(s)
+ 
 
 
 \subsection{Bayesian Neural Network Neuron}
@@ -260,12 +260,13 @@ A visualization of a Bayesian neuron appears in Figure \ref{fig:bnn-neuron}. It 
 \end{figure}
 
 \subsubsection{Priors}
+\label{subsection:priors}
 
 The Bayesian paradigm requires a prior on the parameters of a neural network to facilitate training. However, making choice of a prior on all the parameters of a network, following anything other than a simple concept, is difficult, especially given the limited understanding of how priors at one layer affects the next in general. For the purposes of this work, only one prior-selection scheme will be considered, since considering many methods would require introducing many further new concepts. 
 
 A choice of prior that is both commonly used and intuitive is an independent normal distribution on each weight. In particular, a $\mathcal{N}(0, \sigma^2)$ distribution with zero mean and some standard deviation $\sigma$ for each particular weight typically works. This can be thought of as a reasonable choice of vague prior. Since further interpretation of how these priors influence the model becomes even more complicated for other priors, selecting a more informative prior would be tricky. For an example of this complexity, Vladimirova et al. contend that for a network with these priors whose activation functions satisfying a certain "extended envelope property", the priors on the $k^{th}$ hidden layer become sub-Weibull-distributed with parameter $k/2$ conditional on the data passing through the network. Such interpretation is valuable, but beyond the scope of this paper.
 
-However, it turns out there is suggestive parallel between a prior in a Bayesian neural network and regularization in a typical neural network. Regularization is an additional term in the loss that penalizes large weights. Intuitively, this helps resist overfitting by preventing a single neuron from overly influencing the model, since such a neuron may be overemphasizing a fluke of the training set rather than a general pattern. The regularization term typically takes the form $\alpha ||w||_p$  where $||\cdot||_p$ is some choice of metric on $R^n$, typically $p=1$ (Manhattan/taxicab distance) or $p=2$ (Euclidean distance), and $\alpha$ is the regularization hyperparameter that controls how strongly large weights are penalized. 
+However, it turns out there is suggestive parallel between a prior in a Bayesian neural network and \textit{regularization} in a typical neural network. \textit{Regularization} is an additional term in the loss that penalizes large weights. Intuitively, this helps resist overfitting by preventing a single neuron from overly influencing the model, since such a neuron may be overemphasizing a fluke of the training set rather than a general pattern. The regularization term typically takes the form $\alpha ||w||_p$  where $||\cdot||_p$ is some choice of metric on $R^n$, typically $p=1$ (Manhattan/taxicab distance) or $p=2$ (Euclidean distance), and $\alpha$ is the regularization hyperparameter that controls how strongly large weights are penalized. In other words, $\alpha$ is the \textit{regularization rate}. 
 
 As in Jospin et al., consider network parameters $\theta$ with a loss function $L$ assumed to be the negative log likelihood loss, where $D_y$ represents the true labels for the training data $D_x$. Suppose the network does not use regularization. Maximum likelihood estimation aims to find the choice of $\theta$ which minimizes the loss on the given data:
 $$
@@ -285,13 +286,21 @@ $$
 $$
 Jospin et al. state that normal prior selected above is "equivalent to a weighted $\ell_2$ regularization (with weights $1/\sigma$) when training a point estimate network." In this sense, the Bayesian model which utilizes priors specified in advance helps prevent overfitting simply by including priors in the first place. 
 
+% TODO: Add discussion of how distributions are imposed
+%\subsection{Distributions}
+
+%In order to impose distributions on the parameters of a Bayesian neural network, there must be a clearly defined procedure for producting a posterior from the prior and the data. 
+
+%Gradient descent is used to minimize (the approximation of) the KL-divergence...
+
+
 \subsection{Bayesian Convolutional Neural Networks}
 
 As discussed previously, Bayesian neural networks work with most functional models that work for typical neural networks. Convolutional neural networks are no exception - by simply replacing typical CNNs with Bayesian counterparts containing Bayesian neurons and the appropriate operations, a Bayesian convolutional neural network (BCNN) is created. 
 
 \section{Simulation}
 
-We use a BCNN implementation from \href{https://github.com/kumar-shridhar/PyTorch-BayesianCNN}{Github} based on work from ... \cite{shridhar2019comprehensive} \cite{shridhar2018uncertainty}
+We use an implementation of BCNNs from \href{https://github.com/kumar-shridhar/PyTorch-BayesianCNN}{Github} based on work from \cite{shridhar2019comprehensive} \cite{shridhar2018uncertainty}. It allowed for direct substitution of Bayesian layers for deterministic neural network layers such that the same training procedure could be applied to both types of networks. The normal priors previously discussed are built into these custom layers in the package. 
 
 \subsection{CIFAR-10}
 
@@ -303,9 +312,11 @@ We use a BCNN implementation from \href{https://github.com/kumar-shridhar/PyTorc
 
 The CIFAR-10 (Canadian Institute For Advanced Research 10) dataset is a machine learning benchmarking set. It contains $60,000$ $32 \times 32$ RGB pictures of airplanes, cars, birds, cats, deer, dogs, frogs, horses, ships, and trucks \cite{cifar10}. The ten classes within the dataset are mutually exclusive, meaning there is no image containing multiple of the objects mentioned above. The number of images is split evenly between each class, with $6,000$ images per each type of object. It is a very popular data set (in fact the most common) to use in machine learning and training neural networks, due to the extensive size, as well as the decent number of categories. The purpose of the images within the dataset being of a lower resolution is to allow researchers to see more quickly (and with less computation effort) how well an algorithm works on classification with the dataset. Convolutional neural networks are often seen to be the ``best" at classifying CIFAR-10.
 
-\subsection{Hyperparamaters}
+\subsection{Hyperparameters}
 
-We choose to keep the number of layers and levels in the model the same to keep the models roughly equal, but tuned the hyperparamaters seperately. We did not adjust the priors on the BCNN, as those were set by the BCNN layer code from \cite{shridhar2018uncertainty}. We found the following hyperparemeters to created the best model:
+The hyperparameters of a neural network, such as epochs, learning rate, regularization rate, are set before training to control the process and ensure the network achieves the best possible performance for its architecture. Epochs and learning rate were defined in Subsection \ref{subsection:neural-network-training} while the regularization rate and its connection to Bayesian network priors was introduced in \ref{subsection:priors}. The choice of optimizer is not relevant to and beyond the scope of this work - Adamw as selected here simply provides a marginal performance improvement. 
+
+We choose to keep the number of layers and levels in the model the same to keep the models roughly equal, but tuned the hyperparameters separately. We did not adjust the priors on the BCNN, as those were set by the BCNN layer code from \cite{shridhar2018uncertainty}. We found the following hyperparemeters created the best model:
 
 \begin{figure}[H]
 	\begin{center}
